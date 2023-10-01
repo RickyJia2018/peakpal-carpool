@@ -1,0 +1,178 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Peak Pal API - Carpool server",
+    "version": "1.0",
+    "contact": {
+      "name": "Googuar Inc.",
+      "url": "https://googuar.com/",
+      "email": "support@googuar.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "CarpoolServer"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/create_carpool": {
+      "post": {
+        "summary": "Create new carpool",
+        "description": "Use this API to create a carpool record",
+        "operationId": "CarpoolServer_CreateCarpool",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCreateCarpoolResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCreateCarpoolRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CarpoolServer"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbCarpool": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "contactInfo": {
+          "type": "string"
+        },
+        "driverId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "maxPassenger": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "price": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "ablePickUp": {
+          "type": "boolean"
+        },
+        "resortId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "acceptPaymentType": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "departureAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbCreateCarpoolRequest": {
+      "type": "object",
+      "properties": {
+        "contactInfo": {
+          "type": "string"
+        },
+        "driverId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "maxPassenger": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "price": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "ablePickUp": {
+          "type": "boolean"
+        },
+        "resortId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "acceptPaymentType": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "departureAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbCreateCarpoolResponse": {
+      "type": "object",
+      "properties": {
+        "carpool": {
+          "$ref": "#/definitions/pbCarpool"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

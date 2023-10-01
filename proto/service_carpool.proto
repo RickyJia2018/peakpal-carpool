@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/api/annotations.proto";
+
+import "rpc_create_carpool.proto";
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option go_package = "github.com/rickyjia2018/peakpal-carpool/pb";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+    info: {
+        title: "Peak Pal API - Carpool server";
+        version: "1.0";
+        contact: {
+            name: "Googuar Inc.";
+            url: "https://googuar.com/";
+            email: "support@googuar.com";
+        };
+    };
+};
+
+service CarpoolServer{
+    rpc CreateCarpool(CreateCarpoolRequest) returns (CreateCarpoolResponse){
+        option (google.api.http) = {
+            post: "/v1/create_carpool"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to create a carpool record";
+            summary: "Create new carpool";
+        };
+    }
+}
