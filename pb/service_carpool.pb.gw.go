@@ -31,8 +31,8 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
-func request_CarpoolServer_CreateCarpool_0(ctx context.Context, marshaler runtime.Marshaler, client CarpoolServerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateCarpoolRequest
+func request_Carpool_CreateTrip_0(ctx context.Context, marshaler runtime.Marshaler, client CarpoolClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq CreateTripRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -43,13 +43,13 @@ func request_CarpoolServer_CreateCarpool_0(ctx context.Context, marshaler runtim
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.CreateCarpool(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.CreateTrip(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_CarpoolServer_CreateCarpool_0(ctx context.Context, marshaler runtime.Marshaler, server CarpoolServerServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateCarpoolRequest
+func local_request_Carpool_CreateTrip_0(ctx context.Context, marshaler runtime.Marshaler, server CarpoolServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq CreateTripRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -60,30 +60,30 @@ func local_request_CarpoolServer_CreateCarpool_0(ctx context.Context, marshaler 
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.CreateCarpool(ctx, &protoReq)
+	msg, err := server.CreateTrip(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
-// RegisterCarpoolServerHandlerServer registers the http handlers for service CarpoolServer to "mux".
-// UnaryRPC     :call CarpoolServerServer directly.
+// RegisterCarpoolHandlerServer registers the http handlers for service Carpool to "mux".
+// UnaryRPC     :call CarpoolServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterCarpoolServerHandlerFromEndpoint instead.
-func RegisterCarpoolServerHandlerServer(ctx context.Context, mux *runtime.ServeMux, server CarpoolServerServer) error {
+// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterCarpoolHandlerFromEndpoint instead.
+func RegisterCarpoolHandlerServer(ctx context.Context, mux *runtime.ServeMux, server CarpoolServer) error {
 
-	mux.Handle("POST", pattern_CarpoolServer_CreateCarpool_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Carpool_CreateTrip_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.CarpoolServer/CreateCarpool", runtime.WithHTTPPathPattern("/v1/create_carpool"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.Carpool/CreateTrip", runtime.WithHTTPPathPattern("/v1/create_trip"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_CarpoolServer_CreateCarpool_0(ctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_Carpool_CreateTrip_0(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -91,16 +91,16 @@ func RegisterCarpoolServerHandlerServer(ctx context.Context, mux *runtime.ServeM
 			return
 		}
 
-		forward_CarpoolServer_CreateCarpool_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Carpool_CreateTrip_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
 	return nil
 }
 
-// RegisterCarpoolServerHandlerFromEndpoint is same as RegisterCarpoolServerHandler but
+// RegisterCarpoolHandlerFromEndpoint is same as RegisterCarpoolHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterCarpoolServerHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+func RegisterCarpoolHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.Dial(endpoint, opts...)
 	if err != nil {
 		return err
@@ -120,40 +120,40 @@ func RegisterCarpoolServerHandlerFromEndpoint(ctx context.Context, mux *runtime.
 		}()
 	}()
 
-	return RegisterCarpoolServerHandler(ctx, mux, conn)
+	return RegisterCarpoolHandler(ctx, mux, conn)
 }
 
-// RegisterCarpoolServerHandler registers the http handlers for service CarpoolServer to "mux".
+// RegisterCarpoolHandler registers the http handlers for service Carpool to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterCarpoolServerHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return RegisterCarpoolServerHandlerClient(ctx, mux, NewCarpoolServerClient(conn))
+func RegisterCarpoolHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterCarpoolHandlerClient(ctx, mux, NewCarpoolClient(conn))
 }
 
-// RegisterCarpoolServerHandlerClient registers the http handlers for service CarpoolServer
-// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "CarpoolServerClient".
-// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "CarpoolServerClient"
+// RegisterCarpoolHandlerClient registers the http handlers for service Carpool
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "CarpoolClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "CarpoolClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "CarpoolServerClient" to call the correct interceptors.
-func RegisterCarpoolServerHandlerClient(ctx context.Context, mux *runtime.ServeMux, client CarpoolServerClient) error {
+// "CarpoolClient" to call the correct interceptors.
+func RegisterCarpoolHandlerClient(ctx context.Context, mux *runtime.ServeMux, client CarpoolClient) error {
 
-	mux.Handle("POST", pattern_CarpoolServer_CreateCarpool_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Carpool_CreateTrip_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/pb.CarpoolServer/CreateCarpool", runtime.WithHTTPPathPattern("/v1/create_carpool"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/pb.Carpool/CreateTrip", runtime.WithHTTPPathPattern("/v1/create_trip"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_CarpoolServer_CreateCarpool_0(ctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Carpool_CreateTrip_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_CarpoolServer_CreateCarpool_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Carpool_CreateTrip_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -161,9 +161,9 @@ func RegisterCarpoolServerHandlerClient(ctx context.Context, mux *runtime.ServeM
 }
 
 var (
-	pattern_CarpoolServer_CreateCarpool_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "create_carpool"}, ""))
+	pattern_Carpool_CreateTrip_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "create_trip"}, ""))
 )
 
 var (
-	forward_CarpoolServer_CreateCarpool_0 = runtime.ForwardResponseMessage
+	forward_Carpool_CreateTrip_0 = runtime.ForwardResponseMessage
 )

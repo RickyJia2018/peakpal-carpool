@@ -4,7 +4,7 @@ package pb;
 
 import "google/api/annotations.proto";
 
-import "rpc_create_carpool.proto";
+import "rpc_trip.proto";
 
 import "protoc-gen-openapiv2/options/annotations.proto";
 
@@ -22,15 +22,15 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
     };
 };
 
-service CarpoolServer{
-    rpc CreateCarpool(CreateCarpoolRequest) returns (CreateCarpoolResponse){
+service Carpool{
+    rpc CreateTrip(CreateTripRequest) returns (CreateTripResponse){
         option (google.api.http) = {
-            post: "/v1/create_carpool"
+            post: "/v1/create_trip"
             body: "*"
         };
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            description: "Use this API to create a carpool record";
-            summary: "Create new carpool";
+            description: "Use this API to create a trip record";
+            summary: "Create new Trip";
         };
     }
 }

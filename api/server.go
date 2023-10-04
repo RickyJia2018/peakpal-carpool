@@ -8,7 +8,7 @@ import (
 
 // Server serves gRPC requests for our banking service.
 type Server struct {
-	pb.UnimplementedCarpoolServerServer
+	pb.UnimplementedCarpoolServer
 	config util.Config
 	store  db.Store
 }

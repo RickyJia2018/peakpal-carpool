@@ -19,89 +19,89 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	CarpoolServer_CreateCarpool_FullMethodName = "/pb.CarpoolServer/CreateCarpool"
+	Carpool_CreateTrip_FullMethodName = "/pb.Carpool/CreateTrip"
 )
 
-// CarpoolServerClient is the client API for CarpoolServer service.
+// CarpoolClient is the client API for Carpool service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type CarpoolServerClient interface {
-	CreateCarpool(ctx context.Context, in *CreateCarpoolRequest, opts ...grpc.CallOption) (*CreateCarpoolResponse, error)
+type CarpoolClient interface {
+	CreateTrip(ctx context.Context, in *CreateTripRequest, opts ...grpc.CallOption) (*CreateTripResponse, error)
 }
 
-type carpoolServerClient struct {
+type carpoolClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewCarpoolServerClient(cc grpc.ClientConnInterface) CarpoolServerClient {
-	return &carpoolServerClient{cc}
+func NewCarpoolClient(cc grpc.ClientConnInterface) CarpoolClient {
+	return &carpoolClient{cc}
 }
 
-func (c *carpoolServerClient) CreateCarpool(ctx context.Context, in *CreateCarpoolRequest, opts ...grpc.CallOption) (*CreateCarpoolResponse, error) {
-	out := new(CreateCarpoolResponse)
-	err := c.cc.Invoke(ctx, CarpoolServer_CreateCarpool_FullMethodName, in, out, opts...)
+func (c *carpoolClient) CreateTrip(ctx context.Context, in *CreateTripRequest, opts ...grpc.CallOption) (*CreateTripResponse, error) {
+	out := new(CreateTripResponse)
+	err := c.cc.Invoke(ctx, Carpool_CreateTrip_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// CarpoolServerServer is the server API for CarpoolServer service.
-// All implementations must embed UnimplementedCarpoolServerServer
+// CarpoolServer is the server API for Carpool service.
+// All implementations must embed UnimplementedCarpoolServer
 // for forward compatibility
-type CarpoolServerServer interface {
-	CreateCarpool(context.Context, *CreateCarpoolRequest) (*CreateCarpoolResponse, error)
-	mustEmbedUnimplementedCarpoolServerServer()
+type CarpoolServer interface {
+	CreateTrip(context.Context, *CreateTripRequest) (*CreateTripResponse, error)
+	mustEmbedUnimplementedCarpoolServer()
 }
 
-// UnimplementedCarpoolServerServer must be embedded to have forward compatible implementations.
-type UnimplementedCarpoolServerServer struct {
+// UnimplementedCarpoolServer must be embedded to have forward compatible implementations.
+type UnimplementedCarpoolServer struct {
 }
 
-func (UnimplementedCarpoolServerServer) CreateCarpool(context.Context, *CreateCarpoolRequest) (*CreateCarpoolResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateCarpool not implemented")
+func (UnimplementedCarpoolServer) CreateTrip(context.Context, *CreateTripRequest) (*CreateTripResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTrip not implemented")
 }
-func (UnimplementedCarpoolServerServer) mustEmbedUnimplementedCarpoolServerServer() {}
+func (UnimplementedCarpoolServer) mustEmbedUnimplementedCarpoolServer() {}
 
-// UnsafeCarpoolServerServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to CarpoolServerServer will
+// UnsafeCarpoolServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CarpoolServer will
 // result in compilation errors.
-type UnsafeCarpoolServerServer interface {
-	mustEmbedUnimplementedCarpoolServerServer()
+type UnsafeCarpoolServer interface {
+	mustEmbedUnimplementedCarpoolServer()
 }
 
-func RegisterCarpoolServerServer(s grpc.ServiceRegistrar, srv CarpoolServerServer) {
-	s.RegisterService(&CarpoolServer_ServiceDesc, srv)
+func RegisterCarpoolServer(s grpc.ServiceRegistrar, srv CarpoolServer) {
+	s.RegisterService(&Carpool_ServiceDesc, srv)
 }
 
-func _CarpoolServer_CreateCarpool_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateCarpoolRequest)
+func _Carpool_CreateTrip_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTripRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CarpoolServerServer).CreateCarpool(ctx, in)
+		return srv.(CarpoolServer).CreateTrip(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CarpoolServer_CreateCarpool_FullMethodName,
+		FullMethod: Carpool_CreateTrip_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CarpoolServerServer).CreateCarpool(ctx, req.(*CreateCarpoolRequest))
+		return srv.(CarpoolServer).CreateTrip(ctx, req.(*CreateTripRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// CarpoolServer_ServiceDesc is the grpc.ServiceDesc for CarpoolServer service.
+// Carpool_ServiceDesc is the grpc.ServiceDesc for Carpool service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var CarpoolServer_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.CarpoolServer",
-	HandlerType: (*CarpoolServerServer)(nil),
+var Carpool_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "pb.Carpool",
+	HandlerType: (*CarpoolServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateCarpool",
-			Handler:    _CarpoolServer_CreateCarpool_Handler,
+			MethodName: "CreateTrip",
+			Handler:    _Carpool_CreateTrip_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

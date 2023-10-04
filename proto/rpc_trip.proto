@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/rickyjia2018/peakpal-carpool/pb";
+
+message Trip {
+    int64 ID = 1;
+    string contact_info = 2;
+    int64 driver_id = 3;
+    uint64 max_passenger = 4;
+    uint64 price = 5;
+    bool able_pick_up = 6;
+    uint64 resort_id =7;
+    string accept_payment_type = 8;
+    string currency = 9;
+    google.protobuf.Timestamp departure_at = 10;
+    google.protobuf.Timestamp created_at = 11;
+}
+ 
+message CreateTripRequest {
+    string contact_info = 1;
+    int64 driver_id = 2;
+    uint64 max_passenger = 3;
+    uint64 price = 4;
+    bool able_pick_up = 5;
+    uint64 resort_id =6;
+    string accept_payment_type = 9;
+    string currency = 10;
+    google.protobuf.Timestamp departure_at = 11;
+}
+ 
+message CreateTripResponse {
+    Trip trip = 1;
+}
