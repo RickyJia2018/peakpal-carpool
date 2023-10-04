@@ -69,7 +69,7 @@ func runGrpcServer(config util.Config, store db.Store) {
 
 	gprcLogger := grpc.UnaryInterceptor(api.GrpcLogger)
 	grpcServer := grpc.NewServer(gprcLogger)
-	pb.RegisterCarpoolServerServer(grpcServer, server)
+	pb.RegisterCarpoolServer(grpcServer, server)
 	reflection.Register(grpcServer)
 
 	listener, err := net.Listen("tcp", config.GRPCServerAddress)
@@ -103,7 +103,7 @@ func runGatewayServer(config util.Config, store db.Store) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	err = pb.RegisterCarpoolServerHandlerServer(ctx, grpcMux, server)
+	err = pb.RegisterCarpoolHandlerServer(ctx, grpcMux, server)
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot register handler server")
 	}
