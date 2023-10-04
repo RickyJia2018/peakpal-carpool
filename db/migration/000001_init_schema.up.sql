@@ -29,7 +29,7 @@ CREATE TABLE "passengers" (
   "created_at" timestamp NOT NULL DEFAULT (now())
 );
 
-CREATE TABLE "trip_requests" (
+CREATE TABLE "trip_applications" (
   "id" bigserial PRIMARY KEY,
   "trip_id" bigserial NOT NULL,
   "passenger_id" bigserial NOT NULL,
@@ -55,7 +55,7 @@ CREATE INDEX ON "passengers" ("passenger_id");
 
 CREATE INDEX ON "passengers" ("trip_id");
 
-CREATE INDEX ON "trip_requests" ("trip_id");
+CREATE INDEX ON "trip_applications" ("trip_id");
 
 COMMENT ON COLUMN "trips"."accept_payment_type" IS 'provider write';
 
@@ -65,6 +65,6 @@ ALTER TABLE "stations" ADD FOREIGN KEY ("trip_id") REFERENCES "trips" ("id");
 
 ALTER TABLE "passengers" ADD FOREIGN KEY ("trip_id") REFERENCES "trips" ("id");
 
-ALTER TABLE "trip_requests" ADD FOREIGN KEY ("trip_id") REFERENCES "trips" ("id");
+ALTER TABLE "trip_applications" ADD FOREIGN KEY ("trip_id") REFERENCES "trips" ("id");
 
-ALTER TABLE "trip_requests" ADD FOREIGN KEY ("boarding_station") REFERENCES "stations" ("id");
+ALTER TABLE "trip_applications" ADD FOREIGN KEY ("boarding_station") REFERENCES "stations" ("id");

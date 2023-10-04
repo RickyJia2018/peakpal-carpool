@@ -1,4 +1,4 @@
-DB_URL=postgresql://root:secret@localhost:5432/peakpal_carpool_db?sslmode=disable
+DB_URL=postgresql://root:secret@peakpal_db_container:5432/peakpal_carpool_db?sslmode=disable
 
 createdb:
 	docker exec -it peakpal_db_container createdb --username=root --owner=root peakpal_carpool_db
