@@ -1,21 +1,16 @@
 DB_URL=postgresql://root:secret@localhost:5432/peakpal_carpool_db?sslmode=disable
 
-network:
-	docker network create peakpal-network
-postgres:
-	docker run --name postgres16 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:16-alpine
-
 createdb:
-	docker exec -it postgres16 createdb --username=root --owner=root peakpal_carpool_db
+	docker exec -it peakpal_db_container createdb --username=root --owner=root peakpal_carpool_db
 
 createTestdb:
-	docker exec -it postgres16 createdb --username=root --owner=root peakpal_carpool_test
+	docker exec -it peakpal_db_container createdb --username=root --owner=root peakpal_carpool_test
 
 dropdb:
-	docker exec -it postgres16 dropdb peakpal_carpool_db
+	docker exec -it peakpal_db_container dropdb peakpal_carpool_db
 
 dropTestdb:
-	docker exec -it postgres16 dropdb peakpal_carpool_test
+	docker exec -it peakpal_db_container dropdb peakpal_carpool_test
 
 migrateup:
 	migrate -path db/migration -database "$(DB_URL)" -verbose up
