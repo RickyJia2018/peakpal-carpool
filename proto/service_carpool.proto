@@ -20,6 +20,24 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
             email: "support@googuar.com";
         };
     };
+    schemes: [HTTP, HTTPS];  // Use an array of identifiers for HTTP and HTTPS
+    // base_path: "/v1";
+    security_definitions: {
+        security: {
+            key:"bearer"
+            value:{
+                type: TYPE_API_KEY,
+                in: IN_HEADER,
+                name: 'Authorization',
+                description: "Authentication token, prefixed by Bearer: Bearer <token>",
+            }
+        }
+    };
+    security: {
+        security_requirement: {
+          key: "bearer"
+        }
+      };
 };
 
 service Carpool{

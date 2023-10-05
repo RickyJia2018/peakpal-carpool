@@ -5,48 +5,50 @@
 package db
 
 import (
-	"github.com/jackc/pgx/v5/pgtype"
+	"time"
 )
 
-type Carpool struct {
-	ID           int64            `json:"id"`
-	ContactInfo  string           `json:"contact_info"`
-	DriverID     int64            `json:"driver_id"`
-	MaxPassenger int32            `json:"max_passenger"`
-	Price        int32            `json:"price"`
-	AblePickUp   bool             `json:"able_pick_up"`
-	ResortID     int64            `json:"resort_id"`
-	DepartureAt  pgtype.Timestamp `json:"departure_at"`
-	// provider write
-	AcceptPaymentType string           `json:"accept_payment_type"`
-	Currency          string           `json:"currency"`
-	CreatedAt         pgtype.Timestamp `json:"created_at"`
-}
-
-type CarpoolRequest struct {
-	ID              int64            `json:"id"`
-	CarpoolID       int64            `json:"carpool_id"`
-	PassengerID     int64            `json:"passenger_id"`
-	BoardingStation int64            `json:"boarding_station"`
-	PaymentType     string           `json:"payment_type"`
-	Currency        string           `json:"currency"`
-	ContactInfo     string           `json:"contact_info"`
-	Approved        bool             `json:"approved"`
-	CreatedAt       pgtype.Timestamp `json:"created_at"`
-}
-
-type CarpoolUser struct {
-	ID          int64            `json:"id"`
-	PassengerID int64            `json:"passenger_id"`
-	CarpoolID   int64            `json:"carpool_id"`
-	CreatedAt   pgtype.Timestamp `json:"created_at"`
+type Passenger struct {
+	ID          int64     `json:"id"`
+	PassengerID int64     `json:"passenger_id"`
+	TripID      int64     `json:"trip_id"`
+	CreatedAt   time.Time `json:"created_at"`
 }
 
 type Station struct {
 	ID          int64  `json:"id"`
-	CarpoolID   int64  `json:"carpool_id"`
+	TripID      int64  `json:"trip_id"`
 	StationName string `json:"station_name"`
 	// How long it take from first station
-	ArrivalMinutes int32            `json:"arrival_minutes"`
-	CreatedAt      pgtype.Timestamp `json:"created_at"`
+	ArrivalMinutes int32     `json:"arrival_minutes"`
+	CreatedAt      time.Time `json:"created_at"`
+}
+
+type Trip struct {
+	ID           int64     `json:"id"`
+	ContactInfo  string    `json:"contact_info"`
+	DriverID     int64     `json:"driver_id"`
+	MaxPassenger int32     `json:"max_passenger"`
+	Price        int32     `json:"price"`
+	AblePickUp   bool      `json:"able_pick_up"`
+	ResortID     int64     `json:"resort_id"`
+	DepartureAt  time.Time `json:"departure_at"`
+	ReturnAt     time.Time `json:"return_at"`
+	RoundTrip    bool      `json:"round_trip"`
+	// provider write
+	AcceptPaymentType string    `json:"accept_payment_type"`
+	Currency          string    `json:"currency"`
+	CreatedAt         time.Time `json:"created_at"`
+}
+
+type TripApplication struct {
+	ID              int64     `json:"id"`
+	TripID          int64     `json:"trip_id"`
+	PassengerID     int64     `json:"passenger_id"`
+	BoardingStation int64     `json:"boarding_station"`
+	PaymentType     string    `json:"payment_type"`
+	Currency        string    `json:"currency"`
+	ContactInfo     string    `json:"contact_info"`
+	Approved        bool      `json:"approved"`
+	CreatedAt       time.Time `json:"created_at"`
 }

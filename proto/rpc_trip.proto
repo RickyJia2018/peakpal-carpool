@@ -16,8 +16,10 @@ message Trip {
     uint64 resort_id =7;
     string accept_payment_type = 8;
     string currency = 9;
-    google.protobuf.Timestamp departure_at = 10;
-    google.protobuf.Timestamp created_at = 11;
+    bool round_trip = 10;
+    google.protobuf.Timestamp return_at = 11;
+    google.protobuf.Timestamp departure_at = 12;
+    google.protobuf.Timestamp created_at = 13;
 }
  
 message CreateTripRequest {
@@ -29,7 +31,10 @@ message CreateTripRequest {
     uint64 resort_id =6;
     string accept_payment_type = 9;
     string currency = 10;
-    google.protobuf.Timestamp departure_at = 11;
+    bool round_trip = 11;
+    google.protobuf.Timestamp return_at = 12;
+    google.protobuf.Timestamp departure_at = 13;
+
 }
  
 message CreateTripResponse {

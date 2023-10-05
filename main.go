@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net"
 	"net/http"
 	"os"
@@ -21,6 +22,7 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/protobuf/encoding/protojson"
 )
@@ -43,8 +45,14 @@ func main() {
 
 	store := db.NewStore(connPool)
 
-	go runGatewayServer(config, store)
-	runGrpcServer(config, store)
+	conn, err := grpc.Dial(config.PeakpalGRPCServerAddress, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		fmt.Println("Cannot connect to: ", config.PeakpalGRPCServerAddress, err.Error())
+	}
+	peakPalClient := pb.NewPeekPalClient(conn)
+
+	go runGatewayServer(config, store, peakPalClient)
+	runGrpcServer(config, store, peakPalClient)
 
 }
 
@@ -61,15 +69,15 @@ func runDBMigration(migrationURL string, dbSource string) {
 	log.Info().Msg("db migrated successfully")
 }
 
-func runGrpcServer(config util.Config, store db.Store) {
-	server, err := api.NewServer(config, store)
+func runGrpcServer(config util.Config, store db.Store, peakPalClient pb.PeekPalClient) {
+	server, err := api.NewServer(config, store, peakPalClient)
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot create server")
 	}
 
 	gprcLogger := grpc.UnaryInterceptor(api.GrpcLogger)
 	grpcServer := grpc.NewServer(gprcLogger)
-	pb.RegisterCarpoolServerServer(grpcServer, server)
+	pb.RegisterCarpoolServer(grpcServer, server)
 	reflection.Register(grpcServer)
 
 	listener, err := net.Listen("tcp", config.GRPCServerAddress)
@@ -83,8 +91,8 @@ func runGrpcServer(config util.Config, store db.Store) {
 		log.Fatal().Err(err).Msg("cannot start gRPC server")
 	}
 }
-func runGatewayServer(config util.Config, store db.Store) {
-	server, err := api.NewServer(config, store)
+func runGatewayServer(config util.Config, store db.Store, peakPalClient pb.PeekPalClient) {
+	server, err := api.NewServer(config, store, peakPalClient)
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot create server")
 	}
@@ -103,7 +111,7 @@ func runGatewayServer(config util.Config, store db.Store) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	err = pb.RegisterCarpoolServerHandlerServer(ctx, grpcMux, server)
+	err = pb.RegisterCarpoolHandlerServer(ctx, grpcMux, server)
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot register handler server")
 	}

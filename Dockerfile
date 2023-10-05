@@ -7,6 +7,9 @@ RUN go build -o main main.go
 # Run stage
 FROM alpine:3.18
 WORKDIR /app
+
+RUN apk update && apk add postgresql-client
+
 COPY --from=builder /app/main .
 COPY app.env .
 COPY start.sh .

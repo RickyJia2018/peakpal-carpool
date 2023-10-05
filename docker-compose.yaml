@@ -1,37 +1,25 @@
-# version: "3.9"
-# services:
-#   postgres:
-#     image: postgres:16-alpine
-#     environment:
-#       - POSTGRES_USER=root
-#       - POSTGRES_PASSWORD=secret
-#       - POSTGRES_DB=peak_pal_db
-#     ports:
-#       - "5432:5432"
-#     volumes:
-#       - data-volume:/var/lib/postgresql/data
-#   redis:
-#     image: redis:7-alpine
-#   api:
-#     build:
-#       context: .
-#       dockerfile: Dockerfile
-#     ports:
-#       - "8080:8080"
-#       - "9090:9090"
-#     environment:
-#       - DB_SOURCE=postgresql://root:secret@postgres:5432/peak_pal_db?sslmode=disable
-#       - REDIS_ADDRESS=redis:6379
-#     depends_on:
-#       - postgres
-#       - redis
-#     entrypoint:
-#       [
-#         "/app/wait-for.sh",
-#         "postgres:5432",
-#         "--",
-#         "/app/start.sh"
-#       ]
-#     command: [ "/app/main" ]
-# volumes:
-#   data-volume:
+version: "3.9"
+services:
+  carpool-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+      - "9091:9091"
+    networks:
+      - peakpal-network
+    environment:
+      - DB_SOURCE=postgresql://root:secret@peakpal_db_container:5432/peakpal_carpool_db?sslmode=disable
+      - REDIS_ADDRESS=redis:6379
+    entrypoint:
+      [
+        "/app/start.sh"
+      ]
+    command: [ "/app/main" ]
+volumes:
+  data-volume:
+networks:
+  peakpal-network:
+    name: peakpal-network
+    external: true
