@@ -84,25 +84,6 @@
         }
       }
     },
-    "pbCountry": {
-      "type": "object",
-      "properties": {
-        "ID": {
-          "type": "string",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        },
-        "countryCode": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
     "pbCreateTripRequest": {
       "type": "object",
       "properties": {
@@ -155,65 +136,11 @@
         }
       }
     },
-    "pbGetCountryResponse": {
-      "type": "object",
-      "properties": {
-        "Country": {
-          "$ref": "#/definitions/pbCountry"
-        }
-      }
-    },
     "pbGetResortResponse": {
       "type": "object",
       "properties": {
         "resort": {
           "$ref": "#/definitions/pbResort"
-        }
-      }
-    },
-    "pbListCountriesResponse": {
-      "type": "object",
-      "properties": {
-        "Country": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/pbCountry"
-          }
-        },
-        "limit": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "offset": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "total": {
-          "type": "string",
-          "format": "int64"
-        }
-      }
-    },
-    "pbListResortsResponse": {
-      "type": "object",
-      "properties": {
-        "resort": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/pbResort"
-          }
-        },
-        "limit": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "offset": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "total": {
-          "type": "string",
-          "format": "int64"
         }
       }
     },

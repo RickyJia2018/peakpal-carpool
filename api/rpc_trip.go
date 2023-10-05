@@ -2,15 +2,26 @@ package api
 
 import (
 	"context"
+	"fmt"
 
 	db "github.com/RickyJia2018/peakpal-carpool/db/sqlc"
 	"github.com/RickyJia2018/peakpal-carpool/pb"
 	"github.com/RickyJia2018/peakpal-carpool/util"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 )
 
 func (server *Server) CreateTrip(ctx context.Context, req *pb.CreateTripRequest) (*pb.CreateTripResponse, error) {
+	md, _ := metadata.FromIncomingContext(ctx)
+	outCtx := metadata.NewOutgoingContext(ctx, md)
+
+	resort, err := server.peakPalClient.GetResort(outCtx, &pb.GetResortRequest{ID: 1})
+
+	if err != nil {
+		fmt.Println("GetResort error: ", err.Error())
+	}
+	fmt.Println("GetResort resort: ", resort.Resort.Name)
 	accessToken, err := util.GetToken(ctx)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "Invalid access token type")
@@ -23,7 +34,7 @@ func (server *Server) CreateTrip(ctx context.Context, req *pb.CreateTripRequest)
 	}
 
 	if authPayload.UserId != req.GetDriverId() {
-		return nil, status.Errorf(codes.InvalidArgument, "Invalid user ID")
+		return nil, status.Errorf(codes.InvalidArgument, "Invalid Driver ID")
 	}
 	//TODO: validate req params
 	trip, err := server.store.CreateTrip(ctx, db.CreateTripParams{
