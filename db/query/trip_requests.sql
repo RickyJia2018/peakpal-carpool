@@ -1,5 +1,5 @@
--- name: CreateTripRequest :one
-INSERT INTO trip_requests (
+-- name: CreateTripApplication :one
+INSERT INTO trip_applications (
     trip_id,
     passenger_id,
     boarding_station,
@@ -11,16 +11,16 @@ INSERT INTO trip_requests (
 )RETURNING *;
 
 
--- name: GetTripRequest :one   
-SELECT * FROM trip_requests
+-- name: GetTripApplication :one   
+SELECT * FROM trip_applications
 WHERE id = $1 LIMIT 1;
 
--- name: ListTripRequests :many
-SELECT * FROM trip_requests
+-- name: ListTripApplications :many
+SELECT * FROM trip_applications
 WHERE trip_id = $1
 ORDER BY created_at
 LIMIT $2 OFFSET $3;
 
--- name: DeleteTripRequest :exec
-DELETE FROM trip_requests
+-- name: DeleteTripApplication :exec
+DELETE FROM trip_applications
 WHERE id = $1;

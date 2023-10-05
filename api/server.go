@@ -9,15 +9,17 @@ import (
 // Server serves gRPC requests for our banking service.
 type Server struct {
 	pb.UnimplementedCarpoolServer
-	config util.Config
-	store  db.Store
+	config        util.Config
+	store         db.Store
+	peakPalClient pb.PeekPalClient
 }
 
 // NewServer creates a new gRPC server.
-func NewServer(config util.Config, store db.Store) (*Server, error) {
+func NewServer(config util.Config, store db.Store, peakPalClient pb.PeekPalClient) (*Server, error) {
 	server := &Server{
-		config: config,
-		store:  store,
+		config:        config,
+		store:         store,
+		peakPalClient: peakPalClient,
 	}
 
 	return server, nil

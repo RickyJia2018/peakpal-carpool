@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/rickyjia2018/peak-pal-server/pb";
+
+message AuthorizeUserRequest {
+	string access_token = 1;
+}
+
+message AuthorizeUserResponse {
+    string ID = 1;
+	int64 user_id = 2;
+	google.protobuf.Timestamp issuedAt =3;
+	google.protobuf.Timestamp expiredAt = 4;
+}

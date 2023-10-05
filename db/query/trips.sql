@@ -6,11 +6,13 @@ INSERT INTO trips (
     price,
     able_pick_up,
     resort_id,
+    round_trip,
     departure_at,
+    return_at,
     accept_payment_type,
     currency
 )VALUES(
-    $1,$2,$3,$4,$5,$6,$7,$8,$9
+    $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11
 )RETURNING *;
 
 -- name: CountTrip :one

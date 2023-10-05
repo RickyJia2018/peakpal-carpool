@@ -6,12 +6,12 @@ CREATE TABLE "trips" (
   "price" int NOT NULL,
   "able_pick_up" boolean NOT NULL DEFAULT false,
   "resort_id" bigserial NOT NULL,
-  "departure_at" timestamp NOT NULL,
-  "return_at" timestamp NOT NULL,
+  "departure_at" timestamptz NOT NULL,
+  "return_at" timestamptz NOT NULL,
   "round_trip" boolean NOT NULL DEFAULT true,
   "accept_payment_type" varchar NOT NULL DEFAULT 'Cash',
   "currency" varchar NOT NULL DEFAULT 'CAD',
-  "created_at" timestamp NOT NULL DEFAULT (now())
+  "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "stations" (
@@ -19,14 +19,14 @@ CREATE TABLE "stations" (
   "trip_id" bigserial NOT NULL,
   "station_name" VARCHAR NOT NULL,
   "arrival_minutes" int NOT NULL,
-  "created_at" timestamp NOT NULL DEFAULT (now())
+  "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "passengers" (
   "id" bigserial PRIMARY KEY,
   "passenger_id" bigserial NOT NULL,
   "trip_id" bigserial NOT NULL,
-  "created_at" timestamp NOT NULL DEFAULT (now())
+  "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "trip_applications" (
@@ -38,7 +38,7 @@ CREATE TABLE "trip_applications" (
   "currency" varchar NOT NULL DEFAULT 'CAD',
   "contact_info" varchar NOT NULL,
   "approved" boolean NOT NULL DEFAULT false,
-  "created_at" timestamp NOT NULL DEFAULT (now())
+  "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
 CREATE INDEX ON "trips" ("resort_id");
