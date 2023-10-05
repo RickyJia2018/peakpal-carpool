@@ -14,15 +14,14 @@ const (
 	authorizationBearer = "bearer"
 )
 
-func dynamicTokenUnaryInterceptor(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
-	token, ok := ctx.Value("token").(string)
-	if ok {
-		md, _ := metadata.FromOutgoingContext(ctx)
-		md = md.Copy()
-		md.Set("Authorization", "Bearer "+token)
-		ctx = metadata.NewOutgoingContext(ctx, md)
-	}
-	return invoker(ctx, method, req, reply, cc, opts...)
+// Method: TokenUnaryInterceptor
+// Purpose: Parses the authenticate token from the request and adds it to the out going context.
+func TokenUnaryInterceptor(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+
+	md, _ := metadata.FromIncomingContext(ctx)
+	outCtx := metadata.NewOutgoingContext(ctx, md)
+
+	return invoker(outCtx, method, req, reply, cc, opts...)
 }
 
 func GetToken(ctx context.Context) (string, error) {

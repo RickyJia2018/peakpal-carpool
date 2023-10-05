@@ -45,7 +45,7 @@ func main() {
 
 	store := db.NewStore(connPool)
 
-	conn, err := grpc.Dial(config.PeakpalGRPCServerAddress, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial(config.PeakpalGRPCServerAddress, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithUnaryInterceptor(util.TokenUnaryInterceptor))
 	if err != nil {
 		fmt.Println("Cannot connect to: ", config.PeakpalGRPCServerAddress, err.Error())
 	}

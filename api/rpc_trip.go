@@ -2,41 +2,35 @@ package api
 
 import (
 	"context"
-	"fmt"
 
 	db "github.com/RickyJia2018/peakpal-carpool/db/sqlc"
 	"github.com/RickyJia2018/peakpal-carpool/pb"
-	"github.com/RickyJia2018/peakpal-carpool/util"
+	"github.com/RickyJia2018/peakpal-carpool/validators"
+	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 )
 
 func (server *Server) CreateTrip(ctx context.Context, req *pb.CreateTripRequest) (*pb.CreateTripResponse, error) {
-	md, _ := metadata.FromIncomingContext(ctx)
-	outCtx := metadata.NewOutgoingContext(ctx, md)
-
-	resort, err := server.peakPalClient.GetResort(outCtx, &pb.GetResortRequest{ID: int64(req.GetResortId())})
-
-	if err != nil {
-
+	violations := validatieCreateTripRequestRequest(req)
+	if violations != nil {
+		return nil, invalidArgumentError(violations)
 	}
-	fmt.Println("GetResort resort: ", resort.Resort.Name)
-	accessToken, err := util.GetToken(ctx)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "Invalid access token type")
-	}
-	authPayload, err := server.peakPalClient.AuthorizeUser(ctx, &pb.AuthorizeUserRequest{
-		AccessToken: accessToken,
-	})
+
+	authPayload, err := server.peakPalClient.AuthorizeUser(ctx, &pb.AuthorizeUserRequest{})
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "Invalid access token")
 	}
 
+	// Driver must be same as the trip creator
 	if authPayload.UserId != req.GetDriverId() {
 		return nil, status.Errorf(codes.InvalidArgument, "Invalid Driver ID")
 	}
-	//TODO: validate req params
+	//validate if the resort exists
+	if _, err := server.peakPalClient.GetResort(ctx, &pb.GetResortRequest{ID: int64(req.GetResortId())}); err != nil {
+		return nil, status.Errorf(codes.Internal, "Fail to find Resort with Resort ID: %d", req.GetResortId())
+	}
+
 	trip, err := server.store.CreateTrip(ctx, db.CreateTripParams{
 		ContactInfo:       req.GetContactInfo(),
 		DriverID:          req.GetDriverId(),
@@ -54,4 +48,14 @@ func (server *Server) CreateTrip(ctx context.Context, req *pb.CreateTripRequest)
 		Trip: convertTrip(trip),
 	}
 	return rsp, nil
+}
+
+func validatieCreateTripRequestRequest(req *pb.CreateTripRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+	if err := validators.ValidateString(req.GetContactInfo(), 1, 1024); err != nil {
+		violations = append(violations, fieldViolation("contact_info", err))
+	}
+	// if err := validators.ValidatePassword(req.GetPassword()); err != nil {
+	// 	violations = append(violations, fieldViolation("password", err))
+	// }
+	return violations
 }
