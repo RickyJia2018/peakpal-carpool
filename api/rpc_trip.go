@@ -2,6 +2,8 @@ package api
 
 import (
 	"context"
+	"math"
+	"time"
 
 	db "github.com/RickyJia2018/peakpal-carpool/db/sqlc"
 	"github.com/RickyJia2018/peakpal-carpool/pb"
@@ -54,8 +56,36 @@ func validatieCreateTripRequestRequest(req *pb.CreateTripRequest) (violations []
 	if err := validators.ValidateString(req.GetContactInfo(), 1, 1024); err != nil {
 		violations = append(violations, fieldViolation("contact_info", err))
 	}
-	// if err := validators.ValidatePassword(req.GetPassword()); err != nil {
-	// 	violations = append(violations, fieldViolation("password", err))
-	// }
+	if err := validators.ValidateID(req.GetDriverId()); err != nil {
+		violations = append(violations, fieldViolation("driver_id", err))
+	}
+	if err := validators.ValidateNumber(int64(req.GetMaxPassenger()), 1, 20); err != nil {
+		violations = append(violations, fieldViolation("max_passenger", err))
+	}
+	if err := validators.ValidateNumber(int64(req.GetPrice()), 1, math.MaxInt64); err != nil {
+		violations = append(violations, fieldViolation("price", err))
+	}
+	if err := validators.ValidateBool(req.GetAblePickUp()); err != nil {
+		violations = append(violations, fieldViolation("able_pickup", err))
+	}
+	if err := validators.ValidateID(int64(req.GetResortId())); err != nil {
+		violations = append(violations, fieldViolation("resort_id", err))
+	}
+	if err := validators.ValidateTime(req.GetDepartureAt().AsTime(), time.Now(), time.Now().AddDate(0, 2, 0)); err != nil {
+		violations = append(violations, fieldViolation("departure_at", err))
+	}
+	if err := validators.ValidateTime(req.GetReturnAt().AsTime(), time.Now(), time.Now().AddDate(0, 2, 0)); err != nil {
+		violations = append(violations, fieldViolation("return_at", err))
+	}
+	if err := validators.ValidateBool(req.GetRoundTrip()); err != nil {
+		violations = append(violations, fieldViolation("round_trip", err))
+	}
+	if err := validators.ValidateString(req.GetAcceptPaymentType(), 1, 1024); err != nil {
+		violations = append(violations, fieldViolation("accept_payment_type", err))
+	}
+	if err := validators.ValidateString(req.GetCurrency(), 1, 10); err != nil {
+		violations = append(violations, fieldViolation("currency", err))
+	}
+
 	return violations
 }
