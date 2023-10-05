@@ -16,10 +16,10 @@ func (server *Server) CreateTrip(ctx context.Context, req *pb.CreateTripRequest)
 	md, _ := metadata.FromIncomingContext(ctx)
 	outCtx := metadata.NewOutgoingContext(ctx, md)
 
-	resort, err := server.peakPalClient.GetResort(outCtx, &pb.GetResortRequest{ID: 1})
+	resort, err := server.peakPalClient.GetResort(outCtx, &pb.GetResortRequest{ID: int64(req.GetResortId())})
 
 	if err != nil {
-		fmt.Println("GetResort error: ", err.Error())
+
 	}
 	fmt.Println("GetResort resort: ", resort.Resort.Name)
 	accessToken, err := util.GetToken(ctx)

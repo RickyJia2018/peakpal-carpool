@@ -53,7 +53,7 @@ service Carpool{
         };
     }
 }
-service PeekPal {
+service PeakPal {
     rpc AuthorizeUser (AuthorizeUserRequest) returns (AuthorizeUserResponse);
     rpc GetResort (GetResortRequest) returns(GetResortResponse);
 }

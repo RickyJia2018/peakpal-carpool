@@ -109,126 +109,126 @@ var Carpool_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	PeekPal_AuthorizeUser_FullMethodName = "/pb.PeekPal/AuthorizeUser"
-	PeekPal_GetResort_FullMethodName     = "/pb.PeekPal/GetResort"
+	PeakPal_AuthorizeUser_FullMethodName = "/pb.PeakPal/AuthorizeUser"
+	PeakPal_GetResort_FullMethodName     = "/pb.PeakPal/GetResort"
 )
 
-// PeekPalClient is the client API for PeekPal service.
+// PeakPalClient is the client API for PeakPal service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type PeekPalClient interface {
+type PeakPalClient interface {
 	AuthorizeUser(ctx context.Context, in *AuthorizeUserRequest, opts ...grpc.CallOption) (*AuthorizeUserResponse, error)
 	GetResort(ctx context.Context, in *GetResortRequest, opts ...grpc.CallOption) (*GetResortResponse, error)
 }
 
-type peekPalClient struct {
+type peakPalClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewPeekPalClient(cc grpc.ClientConnInterface) PeekPalClient {
-	return &peekPalClient{cc}
+func NewPeakPalClient(cc grpc.ClientConnInterface) PeakPalClient {
+	return &peakPalClient{cc}
 }
 
-func (c *peekPalClient) AuthorizeUser(ctx context.Context, in *AuthorizeUserRequest, opts ...grpc.CallOption) (*AuthorizeUserResponse, error) {
+func (c *peakPalClient) AuthorizeUser(ctx context.Context, in *AuthorizeUserRequest, opts ...grpc.CallOption) (*AuthorizeUserResponse, error) {
 	out := new(AuthorizeUserResponse)
-	err := c.cc.Invoke(ctx, PeekPal_AuthorizeUser_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, PeakPal_AuthorizeUser_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *peekPalClient) GetResort(ctx context.Context, in *GetResortRequest, opts ...grpc.CallOption) (*GetResortResponse, error) {
+func (c *peakPalClient) GetResort(ctx context.Context, in *GetResortRequest, opts ...grpc.CallOption) (*GetResortResponse, error) {
 	out := new(GetResortResponse)
-	err := c.cc.Invoke(ctx, PeekPal_GetResort_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, PeakPal_GetResort_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// PeekPalServer is the server API for PeekPal service.
-// All implementations must embed UnimplementedPeekPalServer
+// PeakPalServer is the server API for PeakPal service.
+// All implementations must embed UnimplementedPeakPalServer
 // for forward compatibility
-type PeekPalServer interface {
+type PeakPalServer interface {
 	AuthorizeUser(context.Context, *AuthorizeUserRequest) (*AuthorizeUserResponse, error)
 	GetResort(context.Context, *GetResortRequest) (*GetResortResponse, error)
-	mustEmbedUnimplementedPeekPalServer()
+	mustEmbedUnimplementedPeakPalServer()
 }
 
-// UnimplementedPeekPalServer must be embedded to have forward compatible implementations.
-type UnimplementedPeekPalServer struct {
+// UnimplementedPeakPalServer must be embedded to have forward compatible implementations.
+type UnimplementedPeakPalServer struct {
 }
 
-func (UnimplementedPeekPalServer) AuthorizeUser(context.Context, *AuthorizeUserRequest) (*AuthorizeUserResponse, error) {
+func (UnimplementedPeakPalServer) AuthorizeUser(context.Context, *AuthorizeUserRequest) (*AuthorizeUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AuthorizeUser not implemented")
 }
-func (UnimplementedPeekPalServer) GetResort(context.Context, *GetResortRequest) (*GetResortResponse, error) {
+func (UnimplementedPeakPalServer) GetResort(context.Context, *GetResortRequest) (*GetResortResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetResort not implemented")
 }
-func (UnimplementedPeekPalServer) mustEmbedUnimplementedPeekPalServer() {}
+func (UnimplementedPeakPalServer) mustEmbedUnimplementedPeakPalServer() {}
 
-// UnsafePeekPalServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to PeekPalServer will
+// UnsafePeakPalServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to PeakPalServer will
 // result in compilation errors.
-type UnsafePeekPalServer interface {
-	mustEmbedUnimplementedPeekPalServer()
+type UnsafePeakPalServer interface {
+	mustEmbedUnimplementedPeakPalServer()
 }
 
-func RegisterPeekPalServer(s grpc.ServiceRegistrar, srv PeekPalServer) {
-	s.RegisterService(&PeekPal_ServiceDesc, srv)
+func RegisterPeakPalServer(s grpc.ServiceRegistrar, srv PeakPalServer) {
+	s.RegisterService(&PeakPal_ServiceDesc, srv)
 }
 
-func _PeekPal_AuthorizeUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PeakPal_AuthorizeUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AuthorizeUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PeekPalServer).AuthorizeUser(ctx, in)
+		return srv.(PeakPalServer).AuthorizeUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PeekPal_AuthorizeUser_FullMethodName,
+		FullMethod: PeakPal_AuthorizeUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PeekPalServer).AuthorizeUser(ctx, req.(*AuthorizeUserRequest))
+		return srv.(PeakPalServer).AuthorizeUser(ctx, req.(*AuthorizeUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PeekPal_GetResort_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PeakPal_GetResort_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetResortRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PeekPalServer).GetResort(ctx, in)
+		return srv.(PeakPalServer).GetResort(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PeekPal_GetResort_FullMethodName,
+		FullMethod: PeakPal_GetResort_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PeekPalServer).GetResort(ctx, req.(*GetResortRequest))
+		return srv.(PeakPalServer).GetResort(ctx, req.(*GetResortRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// PeekPal_ServiceDesc is the grpc.ServiceDesc for PeekPal service.
+// PeakPal_ServiceDesc is the grpc.ServiceDesc for PeakPal service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var PeekPal_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.PeekPal",
-	HandlerType: (*PeekPalServer)(nil),
+var PeakPal_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "pb.PeakPal",
+	HandlerType: (*PeakPalServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "AuthorizeUser",
-			Handler:    _PeekPal_AuthorizeUser_Handler,
+			Handler:    _PeakPal_AuthorizeUser_Handler,
 		},
 		{
 			MethodName: "GetResort",
-			Handler:    _PeekPal_GetResort_Handler,
+			Handler:    _PeakPal_GetResort_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

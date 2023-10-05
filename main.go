@@ -49,7 +49,7 @@ func main() {
 	if err != nil {
 		fmt.Println("Cannot connect to: ", config.PeakpalGRPCServerAddress, err.Error())
 	}
-	peakPalClient := pb.NewPeekPalClient(conn)
+	peakPalClient := pb.NewPeakPalClient(conn)
 
 	go runGatewayServer(config, store, peakPalClient)
 	runGrpcServer(config, store, peakPalClient)
@@ -69,7 +69,7 @@ func runDBMigration(migrationURL string, dbSource string) {
 	log.Info().Msg("db migrated successfully")
 }
 
-func runGrpcServer(config util.Config, store db.Store, peakPalClient pb.PeekPalClient) {
+func runGrpcServer(config util.Config, store db.Store, peakPalClient pb.PeakPalClient) {
 	server, err := api.NewServer(config, store, peakPalClient)
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot create server")
@@ -91,7 +91,7 @@ func runGrpcServer(config util.Config, store db.Store, peakPalClient pb.PeekPalC
 		log.Fatal().Err(err).Msg("cannot start gRPC server")
 	}
 }
-func runGatewayServer(config util.Config, store db.Store, peakPalClient pb.PeekPalClient) {
+func runGatewayServer(config util.Config, store db.Store, peakPalClient pb.PeakPalClient) {
 	server, err := api.NewServer(config, store, peakPalClient)
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot create server")

@@ -11,11 +11,11 @@ type Server struct {
 	pb.UnimplementedCarpoolServer
 	config        util.Config
 	store         db.Store
-	peakPalClient pb.PeekPalClient
+	peakPalClient pb.PeakPalClient
 }
 
 // NewServer creates a new gRPC server.
-func NewServer(config util.Config, store db.Store, peakPalClient pb.PeekPalClient) (*Server, error) {
+func NewServer(config util.Config, store db.Store, peakPalClient pb.PeakPalClient) (*Server, error) {
 	server := &Server{
 		config:        config,
 		store:         store,
