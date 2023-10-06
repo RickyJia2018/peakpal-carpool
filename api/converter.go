@@ -23,3 +23,32 @@ func convertTrip(trip db.Trip) *pb.Trip {
 		CreatedAt:         timestamppb.New(trip.CreatedAt),
 	}
 }
+func convertStation(station db.Station) *pb.Station {
+	return &pb.Station{
+		ID:             station.ID,
+		Name:           station.StationName,
+		ArrivalMinutes: int64(station.ArrivalMinutes),
+		CreatedAt:      timestamppb.New(station.CreatedAt),
+	}
+}
+func convertPassenger(passenger db.Passenger) *pb.Passenger {
+	return &pb.Passenger{
+		ID:          passenger.ID,
+		TripeId:     passenger.TripID,
+		PassengerId: passenger.PassengerID,
+		CreatedAt:   timestamppb.New(passenger.CreatedAt),
+	}
+}
+func convertTripApplication(tripApplication db.TripApplication) *pb.TripApplication {
+	return &pb.TripApplication{
+		ID:              tripApplication.ID,
+		TripId:          tripApplication.TripID,
+		PassengerId:     tripApplication.PassengerID,
+		BoardingStation: tripApplication.BoardingStation,
+		PaymentType:     tripApplication.PaymentType,
+		Currency:        tripApplication.Currency,
+		ContactInfo:     tripApplication.ContactInfo,
+		Approved:        tripApplication.Approved,
+		CreatedAt:       timestamppb.New(tripApplication.CreatedAt),
+	}
+}
