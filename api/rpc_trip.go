@@ -15,7 +15,7 @@ import (
 )
 
 func (server *Server) CreateTrip(ctx context.Context, req *pb.CreateTripRequest) (*pb.CreateTripResponse, error) {
-	violations := validatieCreateTripRequest(req)
+	violations := validateCreateTripRequest(req)
 	if violations != nil {
 		return nil, invalidArgumentError(violations)
 	}
@@ -54,7 +54,7 @@ func (server *Server) CreateTrip(ctx context.Context, req *pb.CreateTripRequest)
 }
 
 func (server *Server) GetTrip(ctx context.Context, req *pb.GetTripRequest) (*pb.GetTripResponse, error) {
-	violations := validatieGetTripRequest(req)
+	violations := validateGetTripRequest(req)
 	if violations != nil {
 		return nil, invalidArgumentError(violations)
 	}
@@ -81,10 +81,14 @@ func (server *Server) UpdateTrip(ctx context.Context, req *pb.UpdateTripRequest)
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "Invalid access token")
 	}
-	if authPayload.UserId != req.GetDriverId() {
-		return nil, status.Errorf(codes.InvalidArgument, "Invalid Driver ID")
+	trip, err := server.store.GetTrip(ctx, int64(req.GetID()))
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "Fail to find Trip with ID: %d", req.GetID())
 	}
-	trip, err := server.store.UpdateTrip(ctx, db.UpdateTripParams{
+	if authPayload.UserId != trip.DriverID {
+		return nil, status.Errorf(codes.Unauthenticated, "Not authorized to modify this trip")
+	}
+	newTrip, err := server.store.UpdateTrip(ctx, db.UpdateTripParams{
 		ID: int64(req.GetID()),
 		ContactInfo: pgtype.Text{
 			String: req.GetContactInfo(),
@@ -100,16 +104,81 @@ func (server *Server) UpdateTrip(ctx context.Context, req *pb.UpdateTripRequest)
 		},
 	})
 	if err != nil {
-		return nil, status.Errorf(codes.Internal, "Fail to update Trip: ", err.Error())
+		return nil, status.Errorf(codes.Internal, "Fail to update Trip: %s", err.Error())
 	}
 	rsp := &pb.GetTripResponse{
-		Trip: convertTrip(trip),
+		Trip: convertTrip(newTrip),
 	}
 	return rsp, nil
-
 }
 
-func validatieCreateTripRequest(req *pb.CreateTripRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+func (server *Server) ListFutureTripsRequest(ctx context.Context, req *pb.ListFutureTripsRequest) (*pb.ListTripsResponse, error) {
+	violations := validateListFutureTripsRequest(req)
+	if violations != nil {
+		return nil, invalidArgumentError(violations)
+	}
+	_, err := server.peakPalClient.AuthorizeUser(ctx, &pb.AuthorizeUserRequest{})
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "Invalid access token")
+	}
+	trips, err := server.store.ListFutureTrips(ctx, db.ListFutureTripsParams{
+		ResortID: int64(req.GetResortId()),
+	})
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "Fail to find Trips with Resort: %s", err.Error())
+	}
+	rsp := &pb.ListTripsResponse{
+		Trips: convertTrips(trips),
+	}
+	return rsp, nil
+}
+
+func (server *Server) ListDriverTripsRequest(ctx context.Context, req *pb.ListDriverTripsRequest) (*pb.ListTripsResponse, error) {
+	violations := validateListDriverTripsRequest(req)
+	if violations != nil {
+		return nil, invalidArgumentError(violations)
+	}
+	_, err := server.peakPalClient.AuthorizeUser(ctx, &pb.AuthorizeUserRequest{})
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "Invalid access token")
+	}
+	trips, err := server.store.ListDriverTrips(ctx, db.ListDriverTripsParams{
+		DriverID: int64(req.GetDriverId()),
+	})
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "Fail to find Trips with Driver: %s", err.Error())
+	}
+	rsp := &pb.ListTripsResponse{
+		Trips: convertTrips(trips),
+	}
+	return rsp, nil
+}
+
+func (server *Server) DeleteTrip(ctx context.Context, req *pb.DeleteTripRequest) (*pb.DeleteTripResponse, error) {
+	violations := validateDeleteTripRequest(req)
+	if violations != nil {
+		return nil, invalidArgumentError(violations)
+	}
+	authPayload, err := server.peakPalClient.AuthorizeUser(ctx, &pb.AuthorizeUserRequest{})
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "Invalid access token")
+	}
+	trip, err := server.store.GetTrip(ctx, int64(req.GetID()))
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "Fail to find Trip with ID: %d", req.GetID())
+	}
+	if authPayload.UserId != trip.DriverID {
+		return nil, status.Errorf(codes.Unauthenticated, "Not authorized to delete this trip")
+	}
+	if err = server.store.DeleteTrip(ctx, int64(req.GetID())); err != nil {
+		return nil, status.Errorf(codes.Internal, "Fail to delete Trip: %s", err.Error())
+	}
+	return &pb.DeleteTripResponse{
+		Success: true,
+	}, nil
+}
+
+func validateCreateTripRequest(req *pb.CreateTripRequest) (violations []*errdetails.BadRequest_FieldViolation) {
 	if err := validators.ValidateString(req.GetContactInfo(), 1, 1024); err != nil {
 		violations = append(violations, fieldViolation("contact_info", err))
 	}
@@ -146,19 +215,19 @@ func validatieCreateTripRequest(req *pb.CreateTripRequest) (violations []*errdet
 
 	return violations
 }
-func validatieGetTripRequest(req *pb.GetTripRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+func validateGetTripRequest(req *pb.GetTripRequest) (violations []*errdetails.BadRequest_FieldViolation) {
 	if err := validators.ValidateID(req.GetID()); err != nil {
 		violations = append(violations, fieldViolation("id", err))
 	}
 	return violations
 }
-func validatieListAvailabeTripsRequest(req *pb.ListAvailableTripsRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+func validateListFutureTripsRequest(req *pb.ListFutureTripsRequest) (violations []*errdetails.BadRequest_FieldViolation) {
 	if err := validators.ValidateID(req.GetResortId()); err != nil {
 		violations = append(violations, fieldViolation("resort_id", err))
 	}
 	return violations
 }
-func validatieListDriverTripsRequest(req *pb.ListDriverTripsRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+func validateListDriverTripsRequest(req *pb.ListDriverTripsRequest) (violations []*errdetails.BadRequest_FieldViolation) {
 	if err := validators.ValidateID(req.GetDriverId()); err != nil {
 		violations = append(violations, fieldViolation("driver_id", err))
 	}
@@ -167,9 +236,6 @@ func validatieListDriverTripsRequest(req *pb.ListDriverTripsRequest) (violations
 func validateUpdateTripRequest(req *pb.UpdateTripRequest) (violations []*errdetails.BadRequest_FieldViolation) {
 	if err := validators.ValidateID(req.GetID()); err != nil {
 		violations = append(violations, fieldViolation("id", err))
-	}
-	if err := validators.ValidateID(req.GetDriverId()); err != nil {
-		violations = append(violations, fieldViolation("driver_id", err))
 	}
 	if req.ContactInfo != nil {
 		if err := validators.ValidateString(req.GetContactInfo(), 1, 1024); err != nil {
@@ -189,7 +255,7 @@ func validateUpdateTripRequest(req *pb.UpdateTripRequest) (violations []*errdeta
 	return violations
 }
 
-func validatieDeleteTripRequest(req *pb.DeleteTripRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+func validateDeleteTripRequest(req *pb.DeleteTripRequest) (violations []*errdetails.BadRequest_FieldViolation) {
 	if err := validators.ValidateID(req.GetID()); err != nil {
 		violations = append(violations, fieldViolation("id", err))
 	}

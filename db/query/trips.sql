@@ -23,7 +23,7 @@ WHERE resort_id = $1;
 SELECT * FROM trips
 WHERE id = $1 LIMIT 1;
 
--- name: ListAvaliableTrips :many
+-- name: ListFutureTrips :many
 SELECT * FROM trips
 WHERE resort_id = $1 AND departure_at>(now())
 ORDER BY departure_at

@@ -125,21 +125,21 @@ func (q *Queries) GetTrip(ctx context.Context, id int64) (Trip, error) {
 	return i, err
 }
 
-const listAvaliableTrips = `-- name: ListAvaliableTrips :many
+const listDriverTrips = `-- name: ListDriverTrips :many
 SELECT id, contact_info, driver_id, max_passenger, price, able_pick_up, resort_id, departure_at, return_at, round_trip, accept_payment_type, currency, created_at FROM trips
-WHERE resort_id = $1 AND departure_at>(now())
-ORDER BY departure_at
+WHERE driver_id = $1
+ORDER BY created_at DESC
 LIMIT $2 OFFSET $3
 `
 
-type ListAvaliableTripsParams struct {
-	ResortID int64 `json:"resort_id"`
+type ListDriverTripsParams struct {
+	DriverID int64 `json:"driver_id"`
 	Limit    int32 `json:"limit"`
 	Offset   int32 `json:"offset"`
 }
 
-func (q *Queries) ListAvaliableTrips(ctx context.Context, arg ListAvaliableTripsParams) ([]Trip, error) {
-	rows, err := q.db.Query(ctx, listAvaliableTrips, arg.ResortID, arg.Limit, arg.Offset)
+func (q *Queries) ListDriverTrips(ctx context.Context, arg ListDriverTripsParams) ([]Trip, error) {
+	rows, err := q.db.Query(ctx, listDriverTrips, arg.DriverID, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
@@ -172,21 +172,21 @@ func (q *Queries) ListAvaliableTrips(ctx context.Context, arg ListAvaliableTrips
 	return items, nil
 }
 
-const listDriverTrips = `-- name: ListDriverTrips :many
+const listFutureTrips = `-- name: ListFutureTrips :many
 SELECT id, contact_info, driver_id, max_passenger, price, able_pick_up, resort_id, departure_at, return_at, round_trip, accept_payment_type, currency, created_at FROM trips
-WHERE driver_id = $1
-ORDER BY created_at DESC
+WHERE resort_id = $1 AND departure_at>(now())
+ORDER BY departure_at
 LIMIT $2 OFFSET $3
 `
 
-type ListDriverTripsParams struct {
-	DriverID int64 `json:"driver_id"`
+type ListFutureTripsParams struct {
+	ResortID int64 `json:"resort_id"`
 	Limit    int32 `json:"limit"`
 	Offset   int32 `json:"offset"`
 }
 
-func (q *Queries) ListDriverTrips(ctx context.Context, arg ListDriverTripsParams) ([]Trip, error) {
-	rows, err := q.db.Query(ctx, listDriverTrips, arg.DriverID, arg.Limit, arg.Offset)
+func (q *Queries) ListFutureTrips(ctx context.Context, arg ListFutureTripsParams) ([]Trip, error) {
+	rows, err := q.db.Query(ctx, listFutureTrips, arg.ResortID, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}

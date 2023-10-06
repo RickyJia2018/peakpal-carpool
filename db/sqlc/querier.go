@@ -20,8 +20,8 @@ type Querier interface {
 	DeleteTripApplication(ctx context.Context, id int64) error
 	GetTrip(ctx context.Context, id int64) (Trip, error)
 	GetTripApplication(ctx context.Context, id int64) (TripApplication, error)
-	ListAvaliableTrips(ctx context.Context, arg ListAvaliableTripsParams) ([]Trip, error)
 	ListDriverTrips(ctx context.Context, arg ListDriverTripsParams) ([]Trip, error)
+	ListFutureTrips(ctx context.Context, arg ListFutureTripsParams) ([]Trip, error)
 	ListPassengers(ctx context.Context, tripID int64) ([]Passenger, error)
 	ListStations(ctx context.Context, tripID int64) ([]Station, error)
 	ListTripApplications(ctx context.Context, arg ListTripApplicationsParams) ([]TripApplication, error)

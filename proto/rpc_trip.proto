@@ -49,7 +49,7 @@ message GetTripResponse{
     Trip trip = 1;
 }
 
-message ListAvailableTripsRequest {
+message ListFutureTripsRequest {
     int64 resort_id = 1;
 }
 message ListDriverTripsRequest {
@@ -65,7 +65,6 @@ message ListTripsResponse{
 
 message UpdateTripRequest{
     int64 ID = 1;
-    int64 driver_id = 2;
     optional int32 max_passenger = 3;
     optional bool able_pick_up = 4;
     optional string contact_info = 5;

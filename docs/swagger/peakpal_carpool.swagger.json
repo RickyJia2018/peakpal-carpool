@@ -28,7 +28,7 @@
     "application/json"
   ],
   "paths": {
-    "/v1/create_trip": {
+    "/create_trip": {
       "post": {
         "summary": "Create new Trip",
         "description": "Use this API to create a trip record",
@@ -54,6 +54,172 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/pbCreateTripRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Carpool"
+        ]
+      }
+    },
+    "/delete_trip": {
+      "delete": {
+        "summary": "Delete Driver's Trips",
+        "description": "Use this API to Delete a trip",
+        "operationId": "Carpool_DeleteTrip",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbDeleteTripResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Carpool"
+        ]
+      }
+    },
+    "/get_trip": {
+      "get": {
+        "summary": "Get Trip by ID",
+        "description": "Use this API to get a trip record by ID",
+        "operationId": "Carpool_GetTrip",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetTripResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Carpool"
+        ]
+      }
+    },
+    "/list_driver_trips": {
+      "get": {
+        "summary": "List Driver's Trips",
+        "description": "Use this API to get all trips belongs to current driver",
+        "operationId": "Carpool_ListDriverTrips",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListTripsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "driverId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Carpool"
+        ]
+      }
+    },
+    "/list_future_trips": {
+      "get": {
+        "summary": "List future Trips",
+        "description": "Use this API to get all not expired trips by resorts (Departure time is after Now()) ",
+        "operationId": "Carpool_ListAvailableTrips",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListTripsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "resortId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Carpool"
+        ]
+      }
+    },
+    "/update_trip": {
+      "patch": {
+        "summary": "Update Driver's Trips",
+        "description": "Use this API to update trip, must provide driver id",
+        "operationId": "Carpool_UpdateTrip",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetTripResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbUpdateTripRequest"
             }
           }
         ],
@@ -136,11 +302,50 @@
         }
       }
     },
+    "pbDeleteTripResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
     "pbGetResortResponse": {
       "type": "object",
       "properties": {
         "resort": {
           "$ref": "#/definitions/pbResort"
+        }
+      }
+    },
+    "pbGetTripResponse": {
+      "type": "object",
+      "properties": {
+        "trip": {
+          "$ref": "#/definitions/pbTrip"
+        }
+      }
+    },
+    "pbListTripsResponse": {
+      "type": "object",
+      "properties": {
+        "trips": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbTrip"
+          }
+        },
+        "total": {
+          "type": "string",
+          "format": "int64"
+        },
+        "limit": {
+          "type": "string",
+          "format": "int64"
+        },
+        "offset": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },
@@ -213,6 +418,25 @@
         "createdAt": {
           "type": "string",
           "format": "date-time"
+        }
+      }
+    },
+    "pbUpdateTripRequest": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "maxPassenger": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "ablePickUp": {
+          "type": "boolean"
+        },
+        "contactInfo": {
+          "type": "string"
         }
       }
     },

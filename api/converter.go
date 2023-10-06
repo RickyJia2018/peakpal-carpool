@@ -23,6 +23,13 @@ func convertTrip(trip db.Trip) *pb.Trip {
 		CreatedAt:         timestamppb.New(trip.CreatedAt),
 	}
 }
+func convertTrips(trips []db.Trip) []*pb.Trip {
+	var pbTrips []*pb.Trip
+	for _, trip := range trips {
+		pbTrips = append(pbTrips, convertTrip(trip))
+	}
+	return pbTrips
+}
 func convertStation(station db.Station) *pb.Station {
 	return &pb.Station{
 		ID:             station.ID,

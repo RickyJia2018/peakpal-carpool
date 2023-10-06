@@ -20,6 +20,7 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
             url: "https://googuar.com/";
             email: "support@googuar.com";
         };
+        description:"All time are using Unix Timestamp - https://www.epochconverter.com/";
     };
     schemes: [HTTP, HTTPS];  // Use an array of identifiers for HTTP and HTTPS
     // base_path: "/v1";
@@ -44,12 +45,59 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 service Carpool{
     rpc CreateTrip(CreateTripRequest) returns (CreateTripResponse){
         option (google.api.http) = {
-            post: "/v1/create_trip"
+            post: "/create_trip"
             body: "*"
         };
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to create a trip record";
             summary: "Create new Trip";
+        };
+    }
+    rpc GetTrip(GetTripRequest) returns (GetTripResponse){
+        option (google.api.http) = {
+            get: "/get_trip"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to get a trip record by ID";
+            summary: "Get Trip by ID";
+        };
+    }
+
+    rpc ListAvailableTrips(ListFutureTripsRequest)returns(ListTripsResponse){
+        option (google.api.http) = {
+            get: "/list_future_trips"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to get all not expired trips by resorts (Departure time is after Now()) ";
+            summary: "List future Trips";
+        };
+    }
+    rpc ListDriverTrips(ListDriverTripsRequest)returns(ListTripsResponse){
+        option (google.api.http) = {
+            get: "/list_driver_trips"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to get all trips belongs to current driver";
+            summary: "List Driver's Trips";
+        };
+    }
+    rpc UpdateTrip (UpdateTripRequest) returns (GetTripResponse){
+        option (google.api.http) = {
+            patch: "/update_trip"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to update trip, must provide driver id";
+            summary: "Update Driver's Trips";
+        };
+    }
+    rpc DeleteTrip (DeleteTripRequest)returns(DeleteTripResponse){
+        option (google.api.http) = {
+            delete: "/delete_trip"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to Delete a trip";
+            summary: "Delete Driver's Trips";
         };
     }
 }
