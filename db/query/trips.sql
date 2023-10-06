@@ -23,10 +23,16 @@ WHERE resort_id = $1;
 SELECT * FROM trips
 WHERE id = $1 LIMIT 1;
 
--- name: ListAllTrips :many
+-- name: ListAvaliableTrips :many
 SELECT * FROM trips
 WHERE resort_id = $1 AND departure_at>(now())
 ORDER BY departure_at
+LIMIT $2 OFFSET $3;
+
+-- name: ListDriverTrips :many
+SELECT * FROM trips
+WHERE driver_id = $1
+ORDER BY created_at DESC
 LIMIT $2 OFFSET $3;
 
 -- name: UpdateTrip :one

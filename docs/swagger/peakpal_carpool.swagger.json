@@ -95,12 +95,12 @@
           "format": "int64"
         },
         "maxPassenger": {
-          "type": "string",
-          "format": "uint64"
+          "type": "integer",
+          "format": "int64"
         },
         "price": {
-          "type": "string",
-          "format": "uint64"
+          "type": "integer",
+          "format": "int64"
         },
         "ablePickUp": {
           "type": "boolean"
@@ -179,12 +179,12 @@
           "format": "int64"
         },
         "maxPassenger": {
-          "type": "string",
-          "format": "uint64"
+          "type": "integer",
+          "format": "int64"
         },
         "price": {
-          "type": "string",
-          "format": "uint64"
+          "type": "integer",
+          "format": "int64"
         },
         "ablePickUp": {
           "type": "boolean"

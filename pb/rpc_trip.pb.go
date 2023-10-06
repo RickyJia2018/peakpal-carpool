@@ -29,8 +29,8 @@ type Trip struct {
 	ID                int64                  `protobuf:"varint,1,opt,name=ID,proto3" json:"ID,omitempty"`
 	ContactInfo       string                 `protobuf:"bytes,2,opt,name=contact_info,json=contactInfo,proto3" json:"contact_info,omitempty"`
 	DriverId          int64                  `protobuf:"varint,3,opt,name=driver_id,json=driverId,proto3" json:"driver_id,omitempty"`
-	MaxPassenger      uint64                 `protobuf:"varint,4,opt,name=max_passenger,json=maxPassenger,proto3" json:"max_passenger,omitempty"`
-	Price             uint64                 `protobuf:"varint,5,opt,name=price,proto3" json:"price,omitempty"`
+	MaxPassenger      uint32                 `protobuf:"varint,4,opt,name=max_passenger,json=maxPassenger,proto3" json:"max_passenger,omitempty"`
+	Price             uint32                 `protobuf:"varint,5,opt,name=price,proto3" json:"price,omitempty"`
 	AblePickUp        bool                   `protobuf:"varint,6,opt,name=able_pick_up,json=ablePickUp,proto3" json:"able_pick_up,omitempty"`
 	ResortId          uint64                 `protobuf:"varint,7,opt,name=resort_id,json=resortId,proto3" json:"resort_id,omitempty"`
 	AcceptPaymentType string                 `protobuf:"bytes,8,opt,name=accept_payment_type,json=acceptPaymentType,proto3" json:"accept_payment_type,omitempty"`
@@ -94,14 +94,14 @@ func (x *Trip) GetDriverId() int64 {
 	return 0
 }
 
-func (x *Trip) GetMaxPassenger() uint64 {
+func (x *Trip) GetMaxPassenger() uint32 {
 	if x != nil {
 		return x.MaxPassenger
 	}
 	return 0
 }
 
-func (x *Trip) GetPrice() uint64 {
+func (x *Trip) GetPrice() uint32 {
 	if x != nil {
 		return x.Price
 	}
@@ -171,8 +171,8 @@ type CreateTripRequest struct {
 
 	ContactInfo       string                 `protobuf:"bytes,1,opt,name=contact_info,json=contactInfo,proto3" json:"contact_info,omitempty"`
 	DriverId          int64                  `protobuf:"varint,2,opt,name=driver_id,json=driverId,proto3" json:"driver_id,omitempty"`
-	MaxPassenger      uint64                 `protobuf:"varint,3,opt,name=max_passenger,json=maxPassenger,proto3" json:"max_passenger,omitempty"`
-	Price             uint64                 `protobuf:"varint,4,opt,name=price,proto3" json:"price,omitempty"`
+	MaxPassenger      uint32                 `protobuf:"varint,3,opt,name=max_passenger,json=maxPassenger,proto3" json:"max_passenger,omitempty"`
+	Price             uint32                 `protobuf:"varint,4,opt,name=price,proto3" json:"price,omitempty"`
 	AblePickUp        bool                   `protobuf:"varint,5,opt,name=able_pick_up,json=ablePickUp,proto3" json:"able_pick_up,omitempty"`
 	ResortId          uint64                 `protobuf:"varint,6,opt,name=resort_id,json=resortId,proto3" json:"resort_id,omitempty"`
 	AcceptPaymentType string                 `protobuf:"bytes,9,opt,name=accept_payment_type,json=acceptPaymentType,proto3" json:"accept_payment_type,omitempty"`
@@ -228,14 +228,14 @@ func (x *CreateTripRequest) GetDriverId() int64 {
 	return 0
 }
 
-func (x *CreateTripRequest) GetMaxPassenger() uint64 {
+func (x *CreateTripRequest) GetMaxPassenger() uint32 {
 	if x != nil {
 		return x.MaxPassenger
 	}
 	return 0
 }
 
-func (x *CreateTripRequest) GetPrice() uint64 {
+func (x *CreateTripRequest) GetPrice() uint32 {
 	if x != nil {
 		return x.Price
 	}
@@ -338,6 +338,438 @@ func (x *CreateTripResponse) GetTrip() *Trip {
 	return nil
 }
 
+type GetTripRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ID int64 `protobuf:"varint,1,opt,name=ID,proto3" json:"ID,omitempty"`
+}
+
+func (x *GetTripRequest) Reset() {
+	*x = GetTripRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpc_trip_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetTripRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTripRequest) ProtoMessage() {}
+
+func (x *GetTripRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_trip_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTripRequest.ProtoReflect.Descriptor instead.
+func (*GetTripRequest) Descriptor() ([]byte, []int) {
+	return file_rpc_trip_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetTripRequest) GetID() int64 {
+	if x != nil {
+		return x.ID
+	}
+	return 0
+}
+
+type GetTripResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Trip *Trip `protobuf:"bytes,1,opt,name=trip,proto3" json:"trip,omitempty"`
+}
+
+func (x *GetTripResponse) Reset() {
+	*x = GetTripResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpc_trip_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetTripResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTripResponse) ProtoMessage() {}
+
+func (x *GetTripResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_trip_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTripResponse.ProtoReflect.Descriptor instead.
+func (*GetTripResponse) Descriptor() ([]byte, []int) {
+	return file_rpc_trip_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetTripResponse) GetTrip() *Trip {
+	if x != nil {
+		return x.Trip
+	}
+	return nil
+}
+
+type ListAvailableTripsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ResortId int64 `protobuf:"varint,1,opt,name=resort_id,json=resortId,proto3" json:"resort_id,omitempty"`
+}
+
+func (x *ListAvailableTripsRequest) Reset() {
+	*x = ListAvailableTripsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpc_trip_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListAvailableTripsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListAvailableTripsRequest) ProtoMessage() {}
+
+func (x *ListAvailableTripsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_trip_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListAvailableTripsRequest.ProtoReflect.Descriptor instead.
+func (*ListAvailableTripsRequest) Descriptor() ([]byte, []int) {
+	return file_rpc_trip_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ListAvailableTripsRequest) GetResortId() int64 {
+	if x != nil {
+		return x.ResortId
+	}
+	return 0
+}
+
+type ListDriverTripsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	DriverId int64 `protobuf:"varint,1,opt,name=driver_id,json=driverId,proto3" json:"driver_id,omitempty"`
+}
+
+func (x *ListDriverTripsRequest) Reset() {
+	*x = ListDriverTripsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpc_trip_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListDriverTripsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListDriverTripsRequest) ProtoMessage() {}
+
+func (x *ListDriverTripsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_trip_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListDriverTripsRequest.ProtoReflect.Descriptor instead.
+func (*ListDriverTripsRequest) Descriptor() ([]byte, []int) {
+	return file_rpc_trip_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ListDriverTripsRequest) GetDriverId() int64 {
+	if x != nil {
+		return x.DriverId
+	}
+	return 0
+}
+
+type ListTripsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Trips  []*Trip `protobuf:"bytes,1,rep,name=trips,proto3" json:"trips,omitempty"`
+	Total  int64   `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Limit  int64   `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty"`
+	Offset int64   `protobuf:"varint,4,opt,name=offset,proto3" json:"offset,omitempty"`
+}
+
+func (x *ListTripsResponse) Reset() {
+	*x = ListTripsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpc_trip_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListTripsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListTripsResponse) ProtoMessage() {}
+
+func (x *ListTripsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_trip_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListTripsResponse.ProtoReflect.Descriptor instead.
+func (*ListTripsResponse) Descriptor() ([]byte, []int) {
+	return file_rpc_trip_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ListTripsResponse) GetTrips() []*Trip {
+	if x != nil {
+		return x.Trips
+	}
+	return nil
+}
+
+func (x *ListTripsResponse) GetTotal() int64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *ListTripsResponse) GetLimit() int64 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+func (x *ListTripsResponse) GetOffset() int64 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+type UpdateTripRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ID           int64   `protobuf:"varint,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	DriverId     int64   `protobuf:"varint,2,opt,name=driver_id,json=driverId,proto3" json:"driver_id,omitempty"`
+	MaxPassenger *int32  `protobuf:"varint,3,opt,name=max_passenger,json=maxPassenger,proto3,oneof" json:"max_passenger,omitempty"`
+	AblePickUp   *bool   `protobuf:"varint,4,opt,name=able_pick_up,json=ablePickUp,proto3,oneof" json:"able_pick_up,omitempty"`
+	ContactInfo  *string `protobuf:"bytes,5,opt,name=contact_info,json=contactInfo,proto3,oneof" json:"contact_info,omitempty"`
+}
+
+func (x *UpdateTripRequest) Reset() {
+	*x = UpdateTripRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpc_trip_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateTripRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateTripRequest) ProtoMessage() {}
+
+func (x *UpdateTripRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_trip_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateTripRequest.ProtoReflect.Descriptor instead.
+func (*UpdateTripRequest) Descriptor() ([]byte, []int) {
+	return file_rpc_trip_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *UpdateTripRequest) GetID() int64 {
+	if x != nil {
+		return x.ID
+	}
+	return 0
+}
+
+func (x *UpdateTripRequest) GetDriverId() int64 {
+	if x != nil {
+		return x.DriverId
+	}
+	return 0
+}
+
+func (x *UpdateTripRequest) GetMaxPassenger() int32 {
+	if x != nil && x.MaxPassenger != nil {
+		return *x.MaxPassenger
+	}
+	return 0
+}
+
+func (x *UpdateTripRequest) GetAblePickUp() bool {
+	if x != nil && x.AblePickUp != nil {
+		return *x.AblePickUp
+	}
+	return false
+}
+
+func (x *UpdateTripRequest) GetContactInfo() string {
+	if x != nil && x.ContactInfo != nil {
+		return *x.ContactInfo
+	}
+	return ""
+}
+
+type DeleteTripRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ID int64 `protobuf:"varint,1,opt,name=ID,proto3" json:"ID,omitempty"`
+}
+
+func (x *DeleteTripRequest) Reset() {
+	*x = DeleteTripRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpc_trip_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteTripRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteTripRequest) ProtoMessage() {}
+
+func (x *DeleteTripRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_trip_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteTripRequest.ProtoReflect.Descriptor instead.
+func (*DeleteTripRequest) Descriptor() ([]byte, []int) {
+	return file_rpc_trip_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *DeleteTripRequest) GetID() int64 {
+	if x != nil {
+		return x.ID
+	}
+	return 0
+}
+
+type DeleteTripResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Success bool `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+}
+
+func (x *DeleteTripResponse) Reset() {
+	*x = DeleteTripResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpc_trip_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteTripResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteTripResponse) ProtoMessage() {}
+
+func (x *DeleteTripResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_trip_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteTripResponse.ProtoReflect.Descriptor instead.
+func (*DeleteTripResponse) Descriptor() ([]byte, []int) {
+	return file_rpc_trip_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *DeleteTripResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
 var File_rpc_trip_proto protoreflect.FileDescriptor
 
 var file_rpc_trip_proto_rawDesc = []byte{
@@ -351,9 +783,9 @@ var file_rpc_trip_proto_rawDesc = []byte{
 	0x6f, 0x12, 0x1b, 0x0a, 0x09, 0x64, 0x72, 0x69, 0x76, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x03,
 	0x20, 0x01, 0x28, 0x03, 0x52, 0x08, 0x64, 0x72, 0x69, 0x76, 0x65, 0x72, 0x49, 0x64, 0x12, 0x23,
 	0x0a, 0x0d, 0x6d, 0x61, 0x78, 0x5f, 0x70, 0x61, 0x73, 0x73, 0x65, 0x6e, 0x67, 0x65, 0x72, 0x18,
-	0x04, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0c, 0x6d, 0x61, 0x78, 0x50, 0x61, 0x73, 0x73, 0x65, 0x6e,
+	0x04, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x0c, 0x6d, 0x61, 0x78, 0x50, 0x61, 0x73, 0x73, 0x65, 0x6e,
 	0x67, 0x65, 0x72, 0x12, 0x14, 0x0a, 0x05, 0x70, 0x72, 0x69, 0x63, 0x65, 0x18, 0x05, 0x20, 0x01,
-	0x28, 0x04, 0x52, 0x05, 0x70, 0x72, 0x69, 0x63, 0x65, 0x12, 0x20, 0x0a, 0x0c, 0x61, 0x62, 0x6c,
+	0x28, 0x0d, 0x52, 0x05, 0x70, 0x72, 0x69, 0x63, 0x65, 0x12, 0x20, 0x0a, 0x0c, 0x61, 0x62, 0x6c,
 	0x65, 0x5f, 0x70, 0x69, 0x63, 0x6b, 0x5f, 0x75, 0x70, 0x18, 0x06, 0x20, 0x01, 0x28, 0x08, 0x52,
 	0x0a, 0x61, 0x62, 0x6c, 0x65, 0x50, 0x69, 0x63, 0x6b, 0x55, 0x70, 0x12, 0x1b, 0x0a, 0x09, 0x72,
 	0x65, 0x73, 0x6f, 0x72, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x07, 0x20, 0x01, 0x28, 0x04, 0x52, 0x08,
@@ -382,8 +814,8 @@ var file_rpc_trip_proto_rawDesc = []byte{
 	0x1b, 0x0a, 0x09, 0x64, 0x72, 0x69, 0x76, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01,
 	0x28, 0x03, 0x52, 0x08, 0x64, 0x72, 0x69, 0x76, 0x65, 0x72, 0x49, 0x64, 0x12, 0x23, 0x0a, 0x0d,
 	0x6d, 0x61, 0x78, 0x5f, 0x70, 0x61, 0x73, 0x73, 0x65, 0x6e, 0x67, 0x65, 0x72, 0x18, 0x03, 0x20,
-	0x01, 0x28, 0x04, 0x52, 0x0c, 0x6d, 0x61, 0x78, 0x50, 0x61, 0x73, 0x73, 0x65, 0x6e, 0x67, 0x65,
-	0x72, 0x12, 0x14, 0x0a, 0x05, 0x70, 0x72, 0x69, 0x63, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x04,
+	0x01, 0x28, 0x0d, 0x52, 0x0c, 0x6d, 0x61, 0x78, 0x50, 0x61, 0x73, 0x73, 0x65, 0x6e, 0x67, 0x65,
+	0x72, 0x12, 0x14, 0x0a, 0x05, 0x70, 0x72, 0x69, 0x63, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0d,
 	0x52, 0x05, 0x70, 0x72, 0x69, 0x63, 0x65, 0x12, 0x20, 0x0a, 0x0c, 0x61, 0x62, 0x6c, 0x65, 0x5f,
 	0x70, 0x69, 0x63, 0x6b, 0x5f, 0x75, 0x70, 0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0a, 0x61,
 	0x62, 0x6c, 0x65, 0x50, 0x69, 0x63, 0x6b, 0x55, 0x70, 0x12, 0x1b, 0x0a, 0x09, 0x72, 0x65, 0x73,
@@ -405,11 +837,51 @@ var file_rpc_trip_proto_rawDesc = []byte{
 	0x70, 0x61, 0x72, 0x74, 0x75, 0x72, 0x65, 0x41, 0x74, 0x22, 0x32, 0x0a, 0x12, 0x43, 0x72, 0x65,
 	0x61, 0x74, 0x65, 0x54, 0x72, 0x69, 0x70, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
 	0x1c, 0x0a, 0x04, 0x74, 0x72, 0x69, 0x70, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x08, 0x2e,
-	0x70, 0x62, 0x2e, 0x54, 0x72, 0x69, 0x70, 0x52, 0x04, 0x74, 0x72, 0x69, 0x70, 0x42, 0x2c, 0x5a,
-	0x2a, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x72, 0x69, 0x63, 0x6b,
-	0x79, 0x6a, 0x69, 0x61, 0x32, 0x30, 0x31, 0x38, 0x2f, 0x70, 0x65, 0x61, 0x6b, 0x70, 0x61, 0x6c,
-	0x2d, 0x63, 0x61, 0x72, 0x70, 0x6f, 0x6f, 0x6c, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0x70, 0x62, 0x2e, 0x54, 0x72, 0x69, 0x70, 0x52, 0x04, 0x74, 0x72, 0x69, 0x70, 0x22, 0x20, 0x0a,
+	0x0e, 0x47, 0x65, 0x74, 0x54, 0x72, 0x69, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x49, 0x44, 0x22,
+	0x2f, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x54, 0x72, 0x69, 0x70, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x12, 0x1c, 0x0a, 0x04, 0x74, 0x72, 0x69, 0x70, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x08, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x72, 0x69, 0x70, 0x52, 0x04, 0x74, 0x72, 0x69, 0x70,
+	0x22, 0x38, 0x0a, 0x19, 0x4c, 0x69, 0x73, 0x74, 0x41, 0x76, 0x61, 0x69, 0x6c, 0x61, 0x62, 0x6c,
+	0x65, 0x54, 0x72, 0x69, 0x70, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1b, 0x0a,
+	0x09, 0x72, 0x65, 0x73, 0x6f, 0x72, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03,
+	0x52, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x72, 0x74, 0x49, 0x64, 0x22, 0x35, 0x0a, 0x16, 0x4c, 0x69,
+	0x73, 0x74, 0x44, 0x72, 0x69, 0x76, 0x65, 0x72, 0x54, 0x72, 0x69, 0x70, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x1b, 0x0a, 0x09, 0x64, 0x72, 0x69, 0x76, 0x65, 0x72, 0x5f, 0x69,
+	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x08, 0x64, 0x72, 0x69, 0x76, 0x65, 0x72, 0x49,
+	0x64, 0x22, 0x77, 0x0a, 0x11, 0x4c, 0x69, 0x73, 0x74, 0x54, 0x72, 0x69, 0x70, 0x73, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x1e, 0x0a, 0x05, 0x74, 0x72, 0x69, 0x70, 0x73, 0x18,
+	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x08, 0x2e, 0x70, 0x62, 0x2e, 0x54, 0x72, 0x69, 0x70, 0x52,
+	0x05, 0x74, 0x72, 0x69, 0x70, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x12, 0x14, 0x0a, 0x05,
+	0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x6c, 0x69, 0x6d,
+	0x69, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x03, 0x52, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x22, 0xed, 0x01, 0x0a, 0x11, 0x55,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x72, 0x69, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x49, 0x44,
+	0x12, 0x1b, 0x0a, 0x09, 0x64, 0x72, 0x69, 0x76, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x03, 0x52, 0x08, 0x64, 0x72, 0x69, 0x76, 0x65, 0x72, 0x49, 0x64, 0x12, 0x28, 0x0a,
+	0x0d, 0x6d, 0x61, 0x78, 0x5f, 0x70, 0x61, 0x73, 0x73, 0x65, 0x6e, 0x67, 0x65, 0x72, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x05, 0x48, 0x00, 0x52, 0x0c, 0x6d, 0x61, 0x78, 0x50, 0x61, 0x73, 0x73, 0x65,
+	0x6e, 0x67, 0x65, 0x72, 0x88, 0x01, 0x01, 0x12, 0x25, 0x0a, 0x0c, 0x61, 0x62, 0x6c, 0x65, 0x5f,
+	0x70, 0x69, 0x63, 0x6b, 0x5f, 0x75, 0x70, 0x18, 0x04, 0x20, 0x01, 0x28, 0x08, 0x48, 0x01, 0x52,
+	0x0a, 0x61, 0x62, 0x6c, 0x65, 0x50, 0x69, 0x63, 0x6b, 0x55, 0x70, 0x88, 0x01, 0x01, 0x12, 0x26,
+	0x0a, 0x0c, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x5f, 0x69, 0x6e, 0x66, 0x6f, 0x18, 0x05,
+	0x20, 0x01, 0x28, 0x09, 0x48, 0x02, 0x52, 0x0b, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x49,
+	0x6e, 0x66, 0x6f, 0x88, 0x01, 0x01, 0x42, 0x10, 0x0a, 0x0e, 0x5f, 0x6d, 0x61, 0x78, 0x5f, 0x70,
+	0x61, 0x73, 0x73, 0x65, 0x6e, 0x67, 0x65, 0x72, 0x42, 0x0f, 0x0a, 0x0d, 0x5f, 0x61, 0x62, 0x6c,
+	0x65, 0x5f, 0x70, 0x69, 0x63, 0x6b, 0x5f, 0x75, 0x70, 0x42, 0x0f, 0x0a, 0x0d, 0x5f, 0x63, 0x6f,
+	0x6e, 0x74, 0x61, 0x63, 0x74, 0x5f, 0x69, 0x6e, 0x66, 0x6f, 0x22, 0x23, 0x0a, 0x11, 0x44, 0x65,
+	0x6c, 0x65, 0x74, 0x65, 0x54, 0x72, 0x69, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x49, 0x44, 0x22,
+	0x2e, 0x0a, 0x12, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x54, 0x72, 0x69, 0x70, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x42,
+	0x2c, 0x5a, 0x2a, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x72, 0x69,
+	0x63, 0x6b, 0x79, 0x6a, 0x69, 0x61, 0x32, 0x30, 0x31, 0x38, 0x2f, 0x70, 0x65, 0x61, 0x6b, 0x70,
+	0x61, 0x6c, 0x2d, 0x63, 0x61, 0x72, 0x70, 0x6f, 0x6f, 0x6c, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -424,25 +896,35 @@ func file_rpc_trip_proto_rawDescGZIP() []byte {
 	return file_rpc_trip_proto_rawDescData
 }
 
-var file_rpc_trip_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_rpc_trip_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_rpc_trip_proto_goTypes = []interface{}{
-	(*Trip)(nil),                  // 0: pb.Trip
-	(*CreateTripRequest)(nil),     // 1: pb.CreateTripRequest
-	(*CreateTripResponse)(nil),    // 2: pb.CreateTripResponse
-	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
+	(*Trip)(nil),                      // 0: pb.Trip
+	(*CreateTripRequest)(nil),         // 1: pb.CreateTripRequest
+	(*CreateTripResponse)(nil),        // 2: pb.CreateTripResponse
+	(*GetTripRequest)(nil),            // 3: pb.GetTripRequest
+	(*GetTripResponse)(nil),           // 4: pb.GetTripResponse
+	(*ListAvailableTripsRequest)(nil), // 5: pb.ListAvailableTripsRequest
+	(*ListDriverTripsRequest)(nil),    // 6: pb.ListDriverTripsRequest
+	(*ListTripsResponse)(nil),         // 7: pb.ListTripsResponse
+	(*UpdateTripRequest)(nil),         // 8: pb.UpdateTripRequest
+	(*DeleteTripRequest)(nil),         // 9: pb.DeleteTripRequest
+	(*DeleteTripResponse)(nil),        // 10: pb.DeleteTripResponse
+	(*timestamppb.Timestamp)(nil),     // 11: google.protobuf.Timestamp
 }
 var file_rpc_trip_proto_depIdxs = []int32{
-	3, // 0: pb.Trip.return_at:type_name -> google.protobuf.Timestamp
-	3, // 1: pb.Trip.departure_at:type_name -> google.protobuf.Timestamp
-	3, // 2: pb.Trip.created_at:type_name -> google.protobuf.Timestamp
-	3, // 3: pb.CreateTripRequest.return_at:type_name -> google.protobuf.Timestamp
-	3, // 4: pb.CreateTripRequest.departure_at:type_name -> google.protobuf.Timestamp
-	0, // 5: pb.CreateTripResponse.trip:type_name -> pb.Trip
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	11, // 0: pb.Trip.return_at:type_name -> google.protobuf.Timestamp
+	11, // 1: pb.Trip.departure_at:type_name -> google.protobuf.Timestamp
+	11, // 2: pb.Trip.created_at:type_name -> google.protobuf.Timestamp
+	11, // 3: pb.CreateTripRequest.return_at:type_name -> google.protobuf.Timestamp
+	11, // 4: pb.CreateTripRequest.departure_at:type_name -> google.protobuf.Timestamp
+	0,  // 5: pb.CreateTripResponse.trip:type_name -> pb.Trip
+	0,  // 6: pb.GetTripResponse.trip:type_name -> pb.Trip
+	0,  // 7: pb.ListTripsResponse.trips:type_name -> pb.Trip
+	8,  // [8:8] is the sub-list for method output_type
+	8,  // [8:8] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_rpc_trip_proto_init() }
@@ -487,14 +969,111 @@ func file_rpc_trip_proto_init() {
 				return nil
 			}
 		}
+		file_rpc_trip_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetTripRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpc_trip_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetTripResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpc_trip_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListAvailableTripsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpc_trip_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListDriverTripsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpc_trip_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListTripsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpc_trip_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateTripRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpc_trip_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteTripRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpc_trip_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteTripResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
+	file_rpc_trip_proto_msgTypes[8].OneofWrappers = []interface{}{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_rpc_trip_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
