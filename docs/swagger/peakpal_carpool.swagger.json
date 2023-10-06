@@ -29,6 +29,74 @@
     "application/json"
   ],
   "paths": {
+    "/create_passenger": {
+      "post": {
+        "summary": "Create new Passenger",
+        "description": "Use this API to create a Passenger related to a trip",
+        "operationId": "Carpool_CreatePassenger",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCreatePassengerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCreatePassengerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Carpool"
+        ]
+      }
+    },
+    "/create_station": {
+      "post": {
+        "summary": "Create new Station",
+        "description": "Use this API to create a station related to a trip",
+        "operationId": "Carpool_CreateStation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCreateStationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCreateStationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Carpool"
+        ]
+      }
+    },
     "/create_trip": {
       "post": {
         "summary": "Create new Trip",
@@ -56,6 +124,72 @@
             "schema": {
               "$ref": "#/definitions/pbCreateTripRequest"
             }
+          }
+        ],
+        "tags": [
+          "Carpool"
+        ]
+      }
+    },
+    "/delete_passenger": {
+      "delete": {
+        "summary": "Delete Passenger",
+        "description": "Use this API to Delete a Passenger",
+        "operationId": "Carpool_DeletePassengers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbDeletePassengerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Carpool"
+        ]
+      }
+    },
+    "/delete_station": {
+      "delete": {
+        "summary": "Delete station",
+        "description": "Use this API to Delete a station",
+        "operationId": "Carpool_DeleteStations",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbDeleteStationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -223,6 +357,72 @@
         ]
       }
     },
+    "/list_passengers": {
+      "get": {
+        "summary": "List Trips' Passenger",
+        "description": "Use this API to get all Passengers in a trip ",
+        "operationId": "Carpool_ListPassengers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListPassengersResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "tripId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Carpool"
+        ]
+      }
+    },
+    "/list_stations": {
+      "get": {
+        "summary": "List Trips' stations",
+        "description": "Use this API to get all stations in a trip ",
+        "operationId": "Carpool_ListStations",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListStationsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "tripId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Carpool"
+        ]
+      }
+    },
     "/update_trip": {
       "patch": {
         "summary": "Update Driver's Trips",
@@ -279,6 +479,51 @@
         }
       }
     },
+    "pbCreatePassengerRequest": {
+      "type": "object",
+      "properties": {
+        "tripeId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "passengerId": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbCreatePassengerResponse": {
+      "type": "object",
+      "properties": {
+        "passenger": {
+          "$ref": "#/definitions/pbPassenger"
+        }
+      }
+    },
+    "pbCreateStationRequest": {
+      "type": "object",
+      "properties": {
+        "tripeId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "arrivalMinutes": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbCreateStationResponse": {
+      "type": "object",
+      "properties": {
+        "station": {
+          "$ref": "#/definitions/pbStation"
+        }
+      }
+    },
     "pbCreateTripRequest": {
       "type": "object",
       "properties": {
@@ -331,6 +576,22 @@
         }
       }
     },
+    "pbDeletePassengerResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbDeleteStationResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
     "pbDeleteTripResponse": {
       "type": "object",
       "properties": {
@@ -352,6 +613,28 @@
       "properties": {
         "trip": {
           "$ref": "#/definitions/pbTrip"
+        }
+      }
+    },
+    "pbListPassengersResponse": {
+      "type": "object",
+      "properties": {
+        "passengers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbPassenger"
+          }
+        }
+      }
+    },
+    "pbListStationsResponse": {
+      "type": "object",
+      "properties": {
+        "stations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbStation"
+          }
         }
       }
     },
@@ -378,6 +661,27 @@
         }
       }
     },
+    "pbPassenger": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "tripeId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "passengerId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
     "pbResort": {
       "type": "object",
       "properties": {
@@ -389,6 +693,30 @@
           "type": "string"
         },
         "country": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbStation": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "tripeId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "arrivalMinutes": {
           "type": "string",
           "format": "int64"
         },

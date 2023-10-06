@@ -5,6 +5,8 @@ package pb;
 import "google/api/annotations.proto";
 
 import "rpc_trip.proto";
+import "rpc_station.proto";
+import "rpc_passenger.proto";
 import "rpc_authorize_user.proto";
 import "rpc_resort.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
@@ -98,6 +100,64 @@ service Carpool{
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to Delete a trip";
             summary: "Delete Driver's Trips";
+        };
+    }
+    /*****************  Stations****************/
+    rpc CreateStation(CreateStationRequest)returns(CreateStationResponse){
+        option (google.api.http) = {
+            post: "/create_station"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to create a station related to a trip";
+            summary: "Create new Station";
+        };
+    }
+    rpc ListStations(ListStationsRequest)returns(ListStationsResponse){
+        option (google.api.http) = {
+            get: "/list_stations"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to get all stations in a trip ";
+            summary: "List Trips' stations";
+        };
+    }
+    rpc DeleteStations(DeleteStationRequest)returns(DeleteStationResponse){
+        option (google.api.http) = {
+            delete: "/delete_station"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to Delete a station";
+            summary: "Delete station";
+        };
+    }
+    /************************ Passengers ********************************/
+    rpc CreatePassenger(CreatePassengerRequest)returns(CreatePassengerResponse){
+        option (google.api.http) = {
+            post: "/create_passenger"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to create a Passenger related to a trip";
+            summary: "Create new Passenger";
+        };
+    }
+    rpc ListPassengers(ListPassengersRequest)returns(ListPassengersResponse){
+        option (google.api.http) = {
+            get: "/list_passengers"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to get all Passengers in a trip ";
+            summary: "List Trips' Passenger";
+        };
+    }
+    rpc DeletePassengers(DeletePassengerRequest)returns(DeletePassengerResponse){
+        option (google.api.http) = {
+            delete: "/delete_passenger"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to Delete a Passenger";
+            summary: "Delete Passenger";
         };
     }
 }
