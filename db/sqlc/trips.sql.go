@@ -12,6 +12,30 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const countDriverTrips = `-- name: CountDriverTrips :one
+SELECT count(*) FROM trips
+WHERE driver_id = $1
+`
+
+func (q *Queries) CountDriverTrips(ctx context.Context, driverID int64) (int64, error) {
+	row := q.db.QueryRow(ctx, countDriverTrips, driverID)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
+const countFutureTrips = `-- name: CountFutureTrips :one
+SELECT count(*) FROM trips
+WHERE resort_id = $1 AND departure_at>(now())
+`
+
+func (q *Queries) CountFutureTrips(ctx context.Context, resortID int64) (int64, error) {
+	row := q.db.QueryRow(ctx, countFutureTrips, resortID)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
 const countTrip = `-- name: CountTrip :one
 SELECT count(*) FROM trips
 WHERE resort_id = $1

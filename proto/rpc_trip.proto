@@ -51,9 +51,13 @@ message GetTripResponse{
 
 message ListFutureTripsRequest {
     int64 resort_id = 1;
+    int64 limit = 2;
+    int64 offset = 3;
 }
 message ListDriverTripsRequest {
     int64 driver_id = 1;
+    int64 limit = 2;
+    int64 offset = 3;
 }
 
 message ListTripsResponse{

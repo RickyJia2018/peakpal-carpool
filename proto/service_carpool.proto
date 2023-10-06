@@ -63,7 +63,7 @@ service Carpool{
         };
     }
 
-    rpc ListAvailableTrips(ListFutureTripsRequest)returns(ListTripsResponse){
+    rpc ListFutureTrips(ListFutureTripsRequest)returns(ListTripsResponse){
         option (google.api.http) = {
             get: "/list_future_trips"
         };

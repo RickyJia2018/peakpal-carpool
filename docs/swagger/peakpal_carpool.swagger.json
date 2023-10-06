@@ -2,6 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Peak Pal API - Carpool server",
+    "description": "All time are using Unix Timestamp - https://www.epochconverter.com/",
     "version": "1.0",
     "contact": {
       "name": "Googuar Inc.",
@@ -154,6 +155,20 @@
             "required": false,
             "type": "string",
             "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -165,7 +180,7 @@
       "get": {
         "summary": "List future Trips",
         "description": "Use this API to get all not expired trips by resorts (Departure time is after Now()) ",
-        "operationId": "Carpool_ListAvailableTrips",
+        "operationId": "Carpool_ListFutureTrips",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -183,6 +198,20 @@
         "parameters": [
           {
             "name": "resortId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
             "in": "query",
             "required": false,
             "type": "string",

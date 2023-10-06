@@ -9,6 +9,8 @@ import (
 )
 
 type Querier interface {
+	CountDriverTrips(ctx context.Context, driverID int64) (int64, error)
+	CountFutureTrips(ctx context.Context, resortID int64) (int64, error)
 	CountTrip(ctx context.Context, resortID int64) (int64, error)
 	CreatePassenger(ctx context.Context, arg CreatePassengerParams) (Passenger, error)
 	CreateStation(ctx context.Context, arg CreateStationParams) (Station, error)

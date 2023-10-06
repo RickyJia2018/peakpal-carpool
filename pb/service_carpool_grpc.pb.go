@@ -19,12 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Carpool_CreateTrip_FullMethodName         = "/pb.Carpool/CreateTrip"
-	Carpool_GetTrip_FullMethodName            = "/pb.Carpool/GetTrip"
-	Carpool_ListAvailableTrips_FullMethodName = "/pb.Carpool/ListAvailableTrips"
-	Carpool_ListDriverTrips_FullMethodName    = "/pb.Carpool/ListDriverTrips"
-	Carpool_UpdateTrip_FullMethodName         = "/pb.Carpool/UpdateTrip"
-	Carpool_DeleteTrip_FullMethodName         = "/pb.Carpool/DeleteTrip"
+	Carpool_CreateTrip_FullMethodName      = "/pb.Carpool/CreateTrip"
+	Carpool_GetTrip_FullMethodName         = "/pb.Carpool/GetTrip"
+	Carpool_ListFutureTrips_FullMethodName = "/pb.Carpool/ListFutureTrips"
+	Carpool_ListDriverTrips_FullMethodName = "/pb.Carpool/ListDriverTrips"
+	Carpool_UpdateTrip_FullMethodName      = "/pb.Carpool/UpdateTrip"
+	Carpool_DeleteTrip_FullMethodName      = "/pb.Carpool/DeleteTrip"
 )
 
 // CarpoolClient is the client API for Carpool service.
@@ -33,7 +33,7 @@ const (
 type CarpoolClient interface {
 	CreateTrip(ctx context.Context, in *CreateTripRequest, opts ...grpc.CallOption) (*CreateTripResponse, error)
 	GetTrip(ctx context.Context, in *GetTripRequest, opts ...grpc.CallOption) (*GetTripResponse, error)
-	ListAvailableTrips(ctx context.Context, in *ListFutureTripsRequest, opts ...grpc.CallOption) (*ListTripsResponse, error)
+	ListFutureTrips(ctx context.Context, in *ListFutureTripsRequest, opts ...grpc.CallOption) (*ListTripsResponse, error)
 	ListDriverTrips(ctx context.Context, in *ListDriverTripsRequest, opts ...grpc.CallOption) (*ListTripsResponse, error)
 	UpdateTrip(ctx context.Context, in *UpdateTripRequest, opts ...grpc.CallOption) (*GetTripResponse, error)
 	DeleteTrip(ctx context.Context, in *DeleteTripRequest, opts ...grpc.CallOption) (*DeleteTripResponse, error)
@@ -65,9 +65,9 @@ func (c *carpoolClient) GetTrip(ctx context.Context, in *GetTripRequest, opts ..
 	return out, nil
 }
 
-func (c *carpoolClient) ListAvailableTrips(ctx context.Context, in *ListFutureTripsRequest, opts ...grpc.CallOption) (*ListTripsResponse, error) {
+func (c *carpoolClient) ListFutureTrips(ctx context.Context, in *ListFutureTripsRequest, opts ...grpc.CallOption) (*ListTripsResponse, error) {
 	out := new(ListTripsResponse)
-	err := c.cc.Invoke(ctx, Carpool_ListAvailableTrips_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Carpool_ListFutureTrips_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -107,7 +107,7 @@ func (c *carpoolClient) DeleteTrip(ctx context.Context, in *DeleteTripRequest, o
 type CarpoolServer interface {
 	CreateTrip(context.Context, *CreateTripRequest) (*CreateTripResponse, error)
 	GetTrip(context.Context, *GetTripRequest) (*GetTripResponse, error)
-	ListAvailableTrips(context.Context, *ListFutureTripsRequest) (*ListTripsResponse, error)
+	ListFutureTrips(context.Context, *ListFutureTripsRequest) (*ListTripsResponse, error)
 	ListDriverTrips(context.Context, *ListDriverTripsRequest) (*ListTripsResponse, error)
 	UpdateTrip(context.Context, *UpdateTripRequest) (*GetTripResponse, error)
 	DeleteTrip(context.Context, *DeleteTripRequest) (*DeleteTripResponse, error)
@@ -124,8 +124,8 @@ func (UnimplementedCarpoolServer) CreateTrip(context.Context, *CreateTripRequest
 func (UnimplementedCarpoolServer) GetTrip(context.Context, *GetTripRequest) (*GetTripResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTrip not implemented")
 }
-func (UnimplementedCarpoolServer) ListAvailableTrips(context.Context, *ListFutureTripsRequest) (*ListTripsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListAvailableTrips not implemented")
+func (UnimplementedCarpoolServer) ListFutureTrips(context.Context, *ListFutureTripsRequest) (*ListTripsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListFutureTrips not implemented")
 }
 func (UnimplementedCarpoolServer) ListDriverTrips(context.Context, *ListDriverTripsRequest) (*ListTripsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListDriverTrips not implemented")
@@ -185,20 +185,20 @@ func _Carpool_GetTrip_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Carpool_ListAvailableTrips_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Carpool_ListFutureTrips_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListFutureTripsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CarpoolServer).ListAvailableTrips(ctx, in)
+		return srv.(CarpoolServer).ListFutureTrips(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Carpool_ListAvailableTrips_FullMethodName,
+		FullMethod: Carpool_ListFutureTrips_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CarpoolServer).ListAvailableTrips(ctx, req.(*ListFutureTripsRequest))
+		return srv.(CarpoolServer).ListFutureTrips(ctx, req.(*ListFutureTripsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -273,8 +273,8 @@ var Carpool_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Carpool_GetTrip_Handler,
 		},
 		{
-			MethodName: "ListAvailableTrips",
-			Handler:    _Carpool_ListAvailableTrips_Handler,
+			MethodName: "ListFutureTrips",
+			Handler:    _Carpool_ListFutureTrips_Handler,
 		},
 		{
 			MethodName: "ListDriverTrips",

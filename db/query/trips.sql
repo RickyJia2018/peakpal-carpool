@@ -19,6 +19,14 @@ INSERT INTO trips (
 SELECT count(*) FROM trips
 WHERE resort_id = $1;
 
+-- name: CountFutureTrips :one
+SELECT count(*) FROM trips
+WHERE resort_id = $1 AND departure_at>(now());
+
+-- name: CountDriverTrips :one
+SELECT count(*) FROM trips
+WHERE driver_id = $1;
+
 -- name: GetTrip :one   
 SELECT * FROM trips
 WHERE id = $1 LIMIT 1;

@@ -112,7 +112,7 @@ func (server *Server) UpdateTrip(ctx context.Context, req *pb.UpdateTripRequest)
 	return rsp, nil
 }
 
-func (server *Server) ListFutureTripsRequest(ctx context.Context, req *pb.ListFutureTripsRequest) (*pb.ListTripsResponse, error) {
+func (server *Server) ListFutureTrips(ctx context.Context, req *pb.ListFutureTripsRequest) (*pb.ListTripsResponse, error) {
 	violations := validateListFutureTripsRequest(req)
 	if violations != nil {
 		return nil, invalidArgumentError(violations)
@@ -123,17 +123,26 @@ func (server *Server) ListFutureTripsRequest(ctx context.Context, req *pb.ListFu
 	}
 	trips, err := server.store.ListFutureTrips(ctx, db.ListFutureTripsParams{
 		ResortID: int64(req.GetResortId()),
+		Limit:    int32(req.GetLimit()),
+		Offset:   int32(req.GetOffset()),
 	})
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Fail to find Trips with Resort: %s", err.Error())
 	}
+	totalTrips, err := server.store.CountFutureTrips(ctx, int64(req.GetResortId()))
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "Fail to count Trips")
+	}
 	rsp := &pb.ListTripsResponse{
-		Trips: convertTrips(trips),
+		Trips:  convertTrips(trips),
+		Total:  totalTrips,
+		Limit:  req.GetLimit(),
+		Offset: req.GetOffset(),
 	}
 	return rsp, nil
 }
 
-func (server *Server) ListDriverTripsRequest(ctx context.Context, req *pb.ListDriverTripsRequest) (*pb.ListTripsResponse, error) {
+func (server *Server) ListDriverTrips(ctx context.Context, req *pb.ListDriverTripsRequest) (*pb.ListTripsResponse, error) {
 	violations := validateListDriverTripsRequest(req)
 	if violations != nil {
 		return nil, invalidArgumentError(violations)
@@ -144,12 +153,21 @@ func (server *Server) ListDriverTripsRequest(ctx context.Context, req *pb.ListDr
 	}
 	trips, err := server.store.ListDriverTrips(ctx, db.ListDriverTripsParams{
 		DriverID: int64(req.GetDriverId()),
+		Limit:    int32(req.GetLimit()),
+		Offset:   int32(req.GetOffset()),
 	})
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Fail to find Trips with Driver: %s", err.Error())
 	}
+	totalTrips, err := server.store.CountDriverTrips(ctx, int64(req.GetDriverId()))
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "Fail to count Trips")
+	}
 	rsp := &pb.ListTripsResponse{
-		Trips: convertTrips(trips),
+		Trips:  convertTrips(trips),
+		Total:  totalTrips,
+		Limit:  req.GetLimit(),
+		Offset: req.GetOffset(),
 	}
 	return rsp, nil
 }

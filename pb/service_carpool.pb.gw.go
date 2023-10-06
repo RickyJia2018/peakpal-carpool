@@ -102,37 +102,37 @@ func local_request_Carpool_GetTrip_0(ctx context.Context, marshaler runtime.Mars
 }
 
 var (
-	filter_Carpool_ListAvailableTrips_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+	filter_Carpool_ListFutureTrips_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 )
 
-func request_Carpool_ListAvailableTrips_0(ctx context.Context, marshaler runtime.Marshaler, client CarpoolClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Carpool_ListFutureTrips_0(ctx context.Context, marshaler runtime.Marshaler, client CarpoolClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListFutureTripsRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Carpool_ListAvailableTrips_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Carpool_ListFutureTrips_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.ListAvailableTrips(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.ListFutureTrips(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_Carpool_ListAvailableTrips_0(ctx context.Context, marshaler runtime.Marshaler, server CarpoolServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_Carpool_ListFutureTrips_0(ctx context.Context, marshaler runtime.Marshaler, server CarpoolServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListFutureTripsRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Carpool_ListAvailableTrips_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Carpool_ListFutureTrips_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.ListAvailableTrips(ctx, &protoReq)
+	msg, err := server.ListFutureTrips(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -297,19 +297,19 @@ func RegisterCarpoolHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 
 	})
 
-	mux.Handle("GET", pattern_Carpool_ListAvailableTrips_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Carpool_ListFutureTrips_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.Carpool/ListAvailableTrips", runtime.WithHTTPPathPattern("/list_future_trips"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.Carpool/ListFutureTrips", runtime.WithHTTPPathPattern("/list_future_trips"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Carpool_ListAvailableTrips_0(ctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_Carpool_ListFutureTrips_0(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -317,7 +317,7 @@ func RegisterCarpoolHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 			return
 		}
 
-		forward_Carpool_ListAvailableTrips_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Carpool_ListFutureTrips_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -476,24 +476,24 @@ func RegisterCarpoolHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 
 	})
 
-	mux.Handle("GET", pattern_Carpool_ListAvailableTrips_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Carpool_ListFutureTrips_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/pb.Carpool/ListAvailableTrips", runtime.WithHTTPPathPattern("/list_future_trips"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/pb.Carpool/ListFutureTrips", runtime.WithHTTPPathPattern("/list_future_trips"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Carpool_ListAvailableTrips_0(ctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Carpool_ListFutureTrips_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_Carpool_ListAvailableTrips_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Carpool_ListFutureTrips_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -568,7 +568,7 @@ var (
 
 	pattern_Carpool_GetTrip_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"get_trip"}, ""))
 
-	pattern_Carpool_ListAvailableTrips_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"list_future_trips"}, ""))
+	pattern_Carpool_ListFutureTrips_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"list_future_trips"}, ""))
 
 	pattern_Carpool_ListDriverTrips_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"list_driver_trips"}, ""))
 
@@ -582,7 +582,7 @@ var (
 
 	forward_Carpool_GetTrip_0 = runtime.ForwardResponseMessage
 
-	forward_Carpool_ListAvailableTrips_0 = runtime.ForwardResponseMessage
+	forward_Carpool_ListFutureTrips_0 = runtime.ForwardResponseMessage
 
 	forward_Carpool_ListDriverTrips_0 = runtime.ForwardResponseMessage
 
