@@ -172,8 +172,6 @@ func (server *Server) ListDriverTrips(ctx context.Context, req *pb.ListDriverTri
 	return rsp, nil
 }
 
-// Should I delete all trip related data? such as passenger, stations, etc.
-// Currently, I think user can only delete trip with no passenger.
 func (server *Server) DeleteTrip(ctx context.Context, req *pb.DeleteTripRequest) (*pb.DeleteTripResponse, error) {
 	violations := validateDeleteTripRequest(req)
 	if violations != nil {
@@ -190,19 +188,11 @@ func (server *Server) DeleteTrip(ctx context.Context, req *pb.DeleteTripRequest)
 	if authPayload.UserId != trip.DriverID {
 		return nil, status.Errorf(codes.PermissionDenied, "No permission to delete this trip")
 	}
-
-	//TODO: change to trasactions delete realted stations, passengers and send email notification to each passenger
-	stations, err := server.store.ListStations(ctx, int64(req.GetID()))
-	if err != nil {
-		return nil, status.Errorf(codes.Internal, "Fail to find Stations with Trip: %s", err.Error())
+	// Refuse deletion of trips that are in the past, records are saved forever.
+	if !time.Now().Before(trip.DepartureAt) {
+		return nil, status.Errorf(codes.FailedPrecondition, "Can't delete a trip that is already departed")
 	}
-	for _, station := range stations {
-		if err = server.store.DeleteStation(ctx, station.ID); err != nil {
-			return nil, status.Errorf(codes.Internal, "Fail to delete Station: %s", err.Error())
-		}
-	}
-	// Then delete the trip
-	if err = server.store.DeleteTrip(ctx, int64(req.GetID())); err != nil {
+	if err = server.store.DeleteTripTx(ctx, db.DeleteTripTxParams{TripID: req.GetID()}); err != nil {
 		return nil, status.Errorf(codes.Internal, "Fail to delete Trip: %s", err.Error())
 	}
 
