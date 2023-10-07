@@ -59,3 +59,10 @@ func convertTripApplication(tripApplication db.TripApplication) *pb.TripApplicat
 		CreatedAt:       timestamppb.New(tripApplication.CreatedAt),
 	}
 }
+func convertTripApplications(tripApplications []db.TripApplication) []*pb.TripApplication {
+	pgTAs := make([]*pb.TripApplication, 0)
+	for _, tripApplication := range tripApplications {
+		pgTAs = append(pgTAs, convertTripApplication(tripApplication))
+	}
+	return pgTAs
+}
