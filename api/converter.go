@@ -38,14 +38,14 @@ func convertStation(station db.Station) *pb.Station {
 		CreatedAt:      timestamppb.New(station.CreatedAt),
 	}
 }
-func convertPassenger(passenger db.Passenger) *pb.Passenger {
-	return &pb.Passenger{
-		ID:          passenger.ID,
-		TripeId:     passenger.TripID,
-		PassengerId: passenger.PassengerID,
-		CreatedAt:   timestamppb.New(passenger.CreatedAt),
+func convertStations(stations []db.Station) []*pb.Station {
+	var pbStations []*pb.Station
+	for _, station := range stations {
+		pbStations = append(pbStations, convertStation(station))
 	}
+	return pbStations
 }
+
 func convertTripApplication(tripApplication db.TripApplication) *pb.TripApplication {
 	return &pb.TripApplication{
 		ID:              tripApplication.ID,
@@ -58,4 +58,11 @@ func convertTripApplication(tripApplication db.TripApplication) *pb.TripApplicat
 		Approved:        tripApplication.Approved,
 		CreatedAt:       timestamppb.New(tripApplication.CreatedAt),
 	}
+}
+func convertTripApplications(tripApplications []db.TripApplication) []*pb.TripApplication {
+	pgTAs := make([]*pb.TripApplication, 0)
+	for _, tripApplication := range tripApplications {
+		pgTAs = append(pgTAs, convertTripApplication(tripApplication))
+	}
+	return pgTAs
 }

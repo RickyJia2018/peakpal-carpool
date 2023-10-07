@@ -5,21 +5,29 @@ INSERT INTO trip_applications (
     boarding_station,
     payment_type,
     currency,
+    total_passenger,
     contact_info
 )VALUES(
-    $1,$2,$3,$4,$5,$6
+    $1,$2,$3,$4,$5,$6,$7
 )RETURNING *;
 
 
 -- name: GetTripApplication :one   
-SELECT * FROM trip_applications
-WHERE id = $1 LIMIT 1;
+SELECT
+    ta.*,
+    t.driver_id
+FROM
+    trip_applications ta
+LEFT JOIN trips t ON ta.trip_id = t.id
+-- LEFT JOIN stations s ON ta.boarding_station = s.id
+WHERE
+    ta.id = $1;
 
 -- name: ListTripApplications :many
 SELECT * FROM trip_applications
-WHERE trip_id = $1
+WHERE trip_id = sqlc.narg(trip_id) OR passenger_id = sqlc.narg(passenger_id) 
 ORDER BY created_at
-LIMIT $2 OFFSET $3;
+LIMIT $1 OFFSET $2;
 
 -- name: DeleteTripApplication :exec
 DELETE FROM trip_applications

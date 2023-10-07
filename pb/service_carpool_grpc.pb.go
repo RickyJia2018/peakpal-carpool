@@ -19,18 +19,18 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Carpool_CreateTrip_FullMethodName       = "/pb.Carpool/CreateTrip"
-	Carpool_GetTrip_FullMethodName          = "/pb.Carpool/GetTrip"
-	Carpool_ListFutureTrips_FullMethodName  = "/pb.Carpool/ListFutureTrips"
-	Carpool_ListDriverTrips_FullMethodName  = "/pb.Carpool/ListDriverTrips"
-	Carpool_UpdateTrip_FullMethodName       = "/pb.Carpool/UpdateTrip"
-	Carpool_DeleteTrip_FullMethodName       = "/pb.Carpool/DeleteTrip"
-	Carpool_CreateStation_FullMethodName    = "/pb.Carpool/CreateStation"
-	Carpool_ListStations_FullMethodName     = "/pb.Carpool/ListStations"
-	Carpool_DeleteStations_FullMethodName   = "/pb.Carpool/DeleteStations"
-	Carpool_CreatePassenger_FullMethodName  = "/pb.Carpool/CreatePassenger"
-	Carpool_ListPassengers_FullMethodName   = "/pb.Carpool/ListPassengers"
-	Carpool_DeletePassengers_FullMethodName = "/pb.Carpool/DeletePassengers"
+	Carpool_CreateTrip_FullMethodName             = "/pb.Carpool/CreateTrip"
+	Carpool_GetTrip_FullMethodName                = "/pb.Carpool/GetTrip"
+	Carpool_ListFutureTrips_FullMethodName        = "/pb.Carpool/ListFutureTrips"
+	Carpool_ListDriverTrips_FullMethodName        = "/pb.Carpool/ListDriverTrips"
+	Carpool_UpdateTrip_FullMethodName             = "/pb.Carpool/UpdateTrip"
+	Carpool_DeleteTrip_FullMethodName             = "/pb.Carpool/DeleteTrip"
+	Carpool_CreateStation_FullMethodName          = "/pb.Carpool/CreateStation"
+	Carpool_ListStations_FullMethodName           = "/pb.Carpool/ListStations"
+	Carpool_DeleteStations_FullMethodName         = "/pb.Carpool/DeleteStations"
+	Carpool_CreateTripApplication_FullMethodName  = "/pb.Carpool/CreateTripApplication"
+	Carpool_ListTripApplications_FullMethodName   = "/pb.Carpool/ListTripApplications"
+	Carpool_DeleteTripApplications_FullMethodName = "/pb.Carpool/DeleteTripApplications"
 )
 
 // CarpoolClient is the client API for Carpool service.
@@ -47,10 +47,10 @@ type CarpoolClient interface {
 	CreateStation(ctx context.Context, in *CreateStationRequest, opts ...grpc.CallOption) (*CreateStationResponse, error)
 	ListStations(ctx context.Context, in *ListStationsRequest, opts ...grpc.CallOption) (*ListStationsResponse, error)
 	DeleteStations(ctx context.Context, in *DeleteStationRequest, opts ...grpc.CallOption) (*DeleteStationResponse, error)
-	// *********************** Passengers *******************************
-	CreatePassenger(ctx context.Context, in *CreatePassengerRequest, opts ...grpc.CallOption) (*CreatePassengerResponse, error)
-	ListPassengers(ctx context.Context, in *ListPassengersRequest, opts ...grpc.CallOption) (*ListPassengersResponse, error)
-	DeletePassengers(ctx context.Context, in *DeletePassengerRequest, opts ...grpc.CallOption) (*DeletePassengerResponse, error)
+	// *********************** TripApplications *******************************
+	CreateTripApplication(ctx context.Context, in *CreateTripApplicationRequest, opts ...grpc.CallOption) (*CreateTripApplicationResponse, error)
+	ListTripApplications(ctx context.Context, in *ListTripApplicationsRequest, opts ...grpc.CallOption) (*ListTripApplicationsResponse, error)
+	DeleteTripApplications(ctx context.Context, in *DeleteTripApplicationRequest, opts ...grpc.CallOption) (*DeleteTripApplicationResponse, error)
 }
 
 type carpoolClient struct {
@@ -142,27 +142,27 @@ func (c *carpoolClient) DeleteStations(ctx context.Context, in *DeleteStationReq
 	return out, nil
 }
 
-func (c *carpoolClient) CreatePassenger(ctx context.Context, in *CreatePassengerRequest, opts ...grpc.CallOption) (*CreatePassengerResponse, error) {
-	out := new(CreatePassengerResponse)
-	err := c.cc.Invoke(ctx, Carpool_CreatePassenger_FullMethodName, in, out, opts...)
+func (c *carpoolClient) CreateTripApplication(ctx context.Context, in *CreateTripApplicationRequest, opts ...grpc.CallOption) (*CreateTripApplicationResponse, error) {
+	out := new(CreateTripApplicationResponse)
+	err := c.cc.Invoke(ctx, Carpool_CreateTripApplication_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *carpoolClient) ListPassengers(ctx context.Context, in *ListPassengersRequest, opts ...grpc.CallOption) (*ListPassengersResponse, error) {
-	out := new(ListPassengersResponse)
-	err := c.cc.Invoke(ctx, Carpool_ListPassengers_FullMethodName, in, out, opts...)
+func (c *carpoolClient) ListTripApplications(ctx context.Context, in *ListTripApplicationsRequest, opts ...grpc.CallOption) (*ListTripApplicationsResponse, error) {
+	out := new(ListTripApplicationsResponse)
+	err := c.cc.Invoke(ctx, Carpool_ListTripApplications_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *carpoolClient) DeletePassengers(ctx context.Context, in *DeletePassengerRequest, opts ...grpc.CallOption) (*DeletePassengerResponse, error) {
-	out := new(DeletePassengerResponse)
-	err := c.cc.Invoke(ctx, Carpool_DeletePassengers_FullMethodName, in, out, opts...)
+func (c *carpoolClient) DeleteTripApplications(ctx context.Context, in *DeleteTripApplicationRequest, opts ...grpc.CallOption) (*DeleteTripApplicationResponse, error) {
+	out := new(DeleteTripApplicationResponse)
+	err := c.cc.Invoke(ctx, Carpool_DeleteTripApplications_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -183,10 +183,10 @@ type CarpoolServer interface {
 	CreateStation(context.Context, *CreateStationRequest) (*CreateStationResponse, error)
 	ListStations(context.Context, *ListStationsRequest) (*ListStationsResponse, error)
 	DeleteStations(context.Context, *DeleteStationRequest) (*DeleteStationResponse, error)
-	// *********************** Passengers *******************************
-	CreatePassenger(context.Context, *CreatePassengerRequest) (*CreatePassengerResponse, error)
-	ListPassengers(context.Context, *ListPassengersRequest) (*ListPassengersResponse, error)
-	DeletePassengers(context.Context, *DeletePassengerRequest) (*DeletePassengerResponse, error)
+	// *********************** TripApplications *******************************
+	CreateTripApplication(context.Context, *CreateTripApplicationRequest) (*CreateTripApplicationResponse, error)
+	ListTripApplications(context.Context, *ListTripApplicationsRequest) (*ListTripApplicationsResponse, error)
+	DeleteTripApplications(context.Context, *DeleteTripApplicationRequest) (*DeleteTripApplicationResponse, error)
 	mustEmbedUnimplementedCarpoolServer()
 }
 
@@ -221,14 +221,14 @@ func (UnimplementedCarpoolServer) ListStations(context.Context, *ListStationsReq
 func (UnimplementedCarpoolServer) DeleteStations(context.Context, *DeleteStationRequest) (*DeleteStationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteStations not implemented")
 }
-func (UnimplementedCarpoolServer) CreatePassenger(context.Context, *CreatePassengerRequest) (*CreatePassengerResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreatePassenger not implemented")
+func (UnimplementedCarpoolServer) CreateTripApplication(context.Context, *CreateTripApplicationRequest) (*CreateTripApplicationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTripApplication not implemented")
 }
-func (UnimplementedCarpoolServer) ListPassengers(context.Context, *ListPassengersRequest) (*ListPassengersResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListPassengers not implemented")
+func (UnimplementedCarpoolServer) ListTripApplications(context.Context, *ListTripApplicationsRequest) (*ListTripApplicationsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListTripApplications not implemented")
 }
-func (UnimplementedCarpoolServer) DeletePassengers(context.Context, *DeletePassengerRequest) (*DeletePassengerResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeletePassengers not implemented")
+func (UnimplementedCarpoolServer) DeleteTripApplications(context.Context, *DeleteTripApplicationRequest) (*DeleteTripApplicationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTripApplications not implemented")
 }
 func (UnimplementedCarpoolServer) mustEmbedUnimplementedCarpoolServer() {}
 
@@ -405,56 +405,56 @@ func _Carpool_DeleteStations_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Carpool_CreatePassenger_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreatePassengerRequest)
+func _Carpool_CreateTripApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTripApplicationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CarpoolServer).CreatePassenger(ctx, in)
+		return srv.(CarpoolServer).CreateTripApplication(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Carpool_CreatePassenger_FullMethodName,
+		FullMethod: Carpool_CreateTripApplication_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CarpoolServer).CreatePassenger(ctx, req.(*CreatePassengerRequest))
+		return srv.(CarpoolServer).CreateTripApplication(ctx, req.(*CreateTripApplicationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Carpool_ListPassengers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListPassengersRequest)
+func _Carpool_ListTripApplications_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListTripApplicationsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CarpoolServer).ListPassengers(ctx, in)
+		return srv.(CarpoolServer).ListTripApplications(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Carpool_ListPassengers_FullMethodName,
+		FullMethod: Carpool_ListTripApplications_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CarpoolServer).ListPassengers(ctx, req.(*ListPassengersRequest))
+		return srv.(CarpoolServer).ListTripApplications(ctx, req.(*ListTripApplicationsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Carpool_DeletePassengers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeletePassengerRequest)
+func _Carpool_DeleteTripApplications_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTripApplicationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CarpoolServer).DeletePassengers(ctx, in)
+		return srv.(CarpoolServer).DeleteTripApplications(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Carpool_DeletePassengers_FullMethodName,
+		FullMethod: Carpool_DeleteTripApplications_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CarpoolServer).DeletePassengers(ctx, req.(*DeletePassengerRequest))
+		return srv.(CarpoolServer).DeleteTripApplications(ctx, req.(*DeleteTripApplicationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -503,16 +503,16 @@ var Carpool_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Carpool_DeleteStations_Handler,
 		},
 		{
-			MethodName: "CreatePassenger",
-			Handler:    _Carpool_CreatePassenger_Handler,
+			MethodName: "CreateTripApplication",
+			Handler:    _Carpool_CreateTripApplication_Handler,
 		},
 		{
-			MethodName: "ListPassengers",
-			Handler:    _Carpool_ListPassengers_Handler,
+			MethodName: "ListTripApplications",
+			Handler:    _Carpool_ListTripApplications_Handler,
 		},
 		{
-			MethodName: "DeletePassengers",
-			Handler:    _Carpool_DeletePassengers_Handler,
+			MethodName: "DeleteTripApplications",
+			Handler:    _Carpool_DeleteTripApplications_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -7,6 +7,9 @@ package db
 
 import (
 	"context"
+	"time"
+
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createTripApplication = `-- name: CreateTripApplication :one
@@ -16,10 +19,11 @@ INSERT INTO trip_applications (
     boarding_station,
     payment_type,
     currency,
+    total_passenger,
     contact_info
 )VALUES(
-    $1,$2,$3,$4,$5,$6
-)RETURNING id, trip_id, passenger_id, boarding_station, payment_type, currency, contact_info, approved, created_at
+    $1,$2,$3,$4,$5,$6,$7
+)RETURNING id, trip_id, passenger_id, boarding_station, payment_type, currency, contact_info, total_passenger, approved, created_at
 `
 
 type CreateTripApplicationParams struct {
@@ -28,6 +32,7 @@ type CreateTripApplicationParams struct {
 	BoardingStation int64  `json:"boarding_station"`
 	PaymentType     string `json:"payment_type"`
 	Currency        string `json:"currency"`
+	TotalPassenger  int32  `json:"total_passenger"`
 	ContactInfo     string `json:"contact_info"`
 }
 
@@ -38,6 +43,7 @@ func (q *Queries) CreateTripApplication(ctx context.Context, arg CreateTripAppli
 		arg.BoardingStation,
 		arg.PaymentType,
 		arg.Currency,
+		arg.TotalPassenger,
 		arg.ContactInfo,
 	)
 	var i TripApplication
@@ -49,6 +55,7 @@ func (q *Queries) CreateTripApplication(ctx context.Context, arg CreateTripAppli
 		&i.PaymentType,
 		&i.Currency,
 		&i.ContactInfo,
+		&i.TotalPassenger,
 		&i.Approved,
 		&i.CreatedAt,
 	)
@@ -66,13 +73,34 @@ func (q *Queries) DeleteTripApplication(ctx context.Context, id int64) error {
 }
 
 const getTripApplication = `-- name: GetTripApplication :one
-SELECT id, trip_id, passenger_id, boarding_station, payment_type, currency, contact_info, approved, created_at FROM trip_applications
-WHERE id = $1 LIMIT 1
+SELECT
+    ta.id, ta.trip_id, ta.passenger_id, ta.boarding_station, ta.payment_type, ta.currency, ta.contact_info, ta.total_passenger, ta.approved, ta.created_at,
+    t.driver_id
+FROM
+    trip_applications ta
+LEFT JOIN trips t ON ta.trip_id = t.id
+WHERE
+    ta.id = $1
 `
 
-func (q *Queries) GetTripApplication(ctx context.Context, id int64) (TripApplication, error) {
+type GetTripApplicationRow struct {
+	ID              int64       `json:"id"`
+	TripID          int64       `json:"trip_id"`
+	PassengerID     int64       `json:"passenger_id"`
+	BoardingStation int64       `json:"boarding_station"`
+	PaymentType     string      `json:"payment_type"`
+	Currency        string      `json:"currency"`
+	ContactInfo     string      `json:"contact_info"`
+	TotalPassenger  int32       `json:"total_passenger"`
+	Approved        bool        `json:"approved"`
+	CreatedAt       time.Time   `json:"created_at"`
+	DriverID        pgtype.Int8 `json:"driver_id"`
+}
+
+// LEFT JOIN stations s ON ta.boarding_station = s.id
+func (q *Queries) GetTripApplication(ctx context.Context, id int64) (GetTripApplicationRow, error) {
 	row := q.db.QueryRow(ctx, getTripApplication, id)
-	var i TripApplication
+	var i GetTripApplicationRow
 	err := row.Scan(
 		&i.ID,
 		&i.TripID,
@@ -81,27 +109,35 @@ func (q *Queries) GetTripApplication(ctx context.Context, id int64) (TripApplica
 		&i.PaymentType,
 		&i.Currency,
 		&i.ContactInfo,
+		&i.TotalPassenger,
 		&i.Approved,
 		&i.CreatedAt,
+		&i.DriverID,
 	)
 	return i, err
 }
 
 const listTripApplications = `-- name: ListTripApplications :many
-SELECT id, trip_id, passenger_id, boarding_station, payment_type, currency, contact_info, approved, created_at FROM trip_applications
-WHERE trip_id = $1
+SELECT id, trip_id, passenger_id, boarding_station, payment_type, currency, contact_info, total_passenger, approved, created_at FROM trip_applications
+WHERE trip_id = $3 OR passenger_id = $4 
 ORDER BY created_at
-LIMIT $2 OFFSET $3
+LIMIT $1 OFFSET $2
 `
 
 type ListTripApplicationsParams struct {
-	TripID int64 `json:"trip_id"`
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
+	Limit       int32       `json:"limit"`
+	Offset      int32       `json:"offset"`
+	TripID      pgtype.Int8 `json:"trip_id"`
+	PassengerID pgtype.Int8 `json:"passenger_id"`
 }
 
 func (q *Queries) ListTripApplications(ctx context.Context, arg ListTripApplicationsParams) ([]TripApplication, error) {
-	rows, err := q.db.Query(ctx, listTripApplications, arg.TripID, arg.Limit, arg.Offset)
+	rows, err := q.db.Query(ctx, listTripApplications,
+		arg.Limit,
+		arg.Offset,
+		arg.TripID,
+		arg.PassengerID,
+	)
 	if err != nil {
 		return nil, err
 	}
@@ -117,6 +153,7 @@ func (q *Queries) ListTripApplications(ctx context.Context, arg ListTripApplicat
 			&i.PaymentType,
 			&i.Currency,
 			&i.ContactInfo,
+			&i.TotalPassenger,
 			&i.Approved,
 			&i.CreatedAt,
 		); err != nil {
