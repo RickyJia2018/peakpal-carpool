@@ -349,8 +349,8 @@ func local_request_Carpool_DeleteStations_0(ctx context.Context, marshaler runti
 
 }
 
-func request_Carpool_CreatePassenger_0(ctx context.Context, marshaler runtime.Marshaler, client CarpoolClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreatePassengerRequest
+func request_Carpool_CreateTripApplication_0(ctx context.Context, marshaler runtime.Marshaler, client CarpoolClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq CreateTripApplicationRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -361,13 +361,13 @@ func request_Carpool_CreatePassenger_0(ctx context.Context, marshaler runtime.Ma
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.CreatePassenger(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.CreateTripApplication(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_Carpool_CreatePassenger_0(ctx context.Context, marshaler runtime.Marshaler, server CarpoolServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreatePassengerRequest
+func local_request_Carpool_CreateTripApplication_0(ctx context.Context, marshaler runtime.Marshaler, server CarpoolServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq CreateTripApplicationRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -378,79 +378,79 @@ func local_request_Carpool_CreatePassenger_0(ctx context.Context, marshaler runt
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.CreatePassenger(ctx, &protoReq)
+	msg, err := server.CreateTripApplication(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
 var (
-	filter_Carpool_ListPassengers_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+	filter_Carpool_ListTripApplications_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 )
 
-func request_Carpool_ListPassengers_0(ctx context.Context, marshaler runtime.Marshaler, client CarpoolClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListPassengersRequest
+func request_Carpool_ListTripApplications_0(ctx context.Context, marshaler runtime.Marshaler, client CarpoolClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq ListTripApplicationsRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Carpool_ListPassengers_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Carpool_ListTripApplications_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.ListPassengers(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.ListTripApplications(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_Carpool_ListPassengers_0(ctx context.Context, marshaler runtime.Marshaler, server CarpoolServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListPassengersRequest
+func local_request_Carpool_ListTripApplications_0(ctx context.Context, marshaler runtime.Marshaler, server CarpoolServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq ListTripApplicationsRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Carpool_ListPassengers_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Carpool_ListTripApplications_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.ListPassengers(ctx, &protoReq)
+	msg, err := server.ListTripApplications(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
 var (
-	filter_Carpool_DeletePassengers_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+	filter_Carpool_DeleteTripApplications_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 )
 
-func request_Carpool_DeletePassengers_0(ctx context.Context, marshaler runtime.Marshaler, client CarpoolClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DeletePassengerRequest
+func request_Carpool_DeleteTripApplications_0(ctx context.Context, marshaler runtime.Marshaler, client CarpoolClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq DeleteTripApplicationRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Carpool_DeletePassengers_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Carpool_DeleteTripApplications_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.DeletePassengers(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.DeleteTripApplications(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_Carpool_DeletePassengers_0(ctx context.Context, marshaler runtime.Marshaler, server CarpoolServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DeletePassengerRequest
+func local_request_Carpool_DeleteTripApplications_0(ctx context.Context, marshaler runtime.Marshaler, server CarpoolServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq DeleteTripApplicationRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Carpool_DeletePassengers_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Carpool_DeleteTripApplications_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.DeletePassengers(ctx, &protoReq)
+	msg, err := server.DeleteTripApplications(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -677,19 +677,19 @@ func RegisterCarpoolHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 
 	})
 
-	mux.Handle("POST", pattern_Carpool_CreatePassenger_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Carpool_CreateTripApplication_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.Carpool/CreatePassenger", runtime.WithHTTPPathPattern("/create_passenger"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.Carpool/CreateTripApplication", runtime.WithHTTPPathPattern("/create_trip_application"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Carpool_CreatePassenger_0(ctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_Carpool_CreateTripApplication_0(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -697,23 +697,23 @@ func RegisterCarpoolHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 			return
 		}
 
-		forward_Carpool_CreatePassenger_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Carpool_CreateTripApplication_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_Carpool_ListPassengers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Carpool_ListTripApplications_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.Carpool/ListPassengers", runtime.WithHTTPPathPattern("/list_passengers"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.Carpool/ListTripApplications", runtime.WithHTTPPathPattern("/list_trip_applications"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Carpool_ListPassengers_0(ctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_Carpool_ListTripApplications_0(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -721,23 +721,23 @@ func RegisterCarpoolHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 			return
 		}
 
-		forward_Carpool_ListPassengers_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Carpool_ListTripApplications_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("DELETE", pattern_Carpool_DeletePassengers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("DELETE", pattern_Carpool_DeleteTripApplications_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.Carpool/DeletePassengers", runtime.WithHTTPPathPattern("/delete_passenger"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.Carpool/DeleteTripApplications", runtime.WithHTTPPathPattern("/delete_trip_application"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Carpool_DeletePassengers_0(ctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_Carpool_DeleteTripApplications_0(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -745,7 +745,7 @@ func RegisterCarpoolHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 			return
 		}
 
-		forward_Carpool_DeletePassengers_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Carpool_DeleteTripApplications_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -979,66 +979,66 @@ func RegisterCarpoolHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 
 	})
 
-	mux.Handle("POST", pattern_Carpool_CreatePassenger_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Carpool_CreateTripApplication_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/pb.Carpool/CreatePassenger", runtime.WithHTTPPathPattern("/create_passenger"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/pb.Carpool/CreateTripApplication", runtime.WithHTTPPathPattern("/create_trip_application"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Carpool_CreatePassenger_0(ctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Carpool_CreateTripApplication_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_Carpool_CreatePassenger_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Carpool_CreateTripApplication_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_Carpool_ListPassengers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Carpool_ListTripApplications_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/pb.Carpool/ListPassengers", runtime.WithHTTPPathPattern("/list_passengers"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/pb.Carpool/ListTripApplications", runtime.WithHTTPPathPattern("/list_trip_applications"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Carpool_ListPassengers_0(ctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Carpool_ListTripApplications_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_Carpool_ListPassengers_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Carpool_ListTripApplications_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("DELETE", pattern_Carpool_DeletePassengers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("DELETE", pattern_Carpool_DeleteTripApplications_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/pb.Carpool/DeletePassengers", runtime.WithHTTPPathPattern("/delete_passenger"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/pb.Carpool/DeleteTripApplications", runtime.WithHTTPPathPattern("/delete_trip_application"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Carpool_DeletePassengers_0(ctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Carpool_DeleteTripApplications_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_Carpool_DeletePassengers_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Carpool_DeleteTripApplications_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -1064,11 +1064,11 @@ var (
 
 	pattern_Carpool_DeleteStations_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"delete_station"}, ""))
 
-	pattern_Carpool_CreatePassenger_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"create_passenger"}, ""))
+	pattern_Carpool_CreateTripApplication_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"create_trip_application"}, ""))
 
-	pattern_Carpool_ListPassengers_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"list_passengers"}, ""))
+	pattern_Carpool_ListTripApplications_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"list_trip_applications"}, ""))
 
-	pattern_Carpool_DeletePassengers_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"delete_passenger"}, ""))
+	pattern_Carpool_DeleteTripApplications_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"delete_trip_application"}, ""))
 )
 
 var (
@@ -1090,9 +1090,9 @@ var (
 
 	forward_Carpool_DeleteStations_0 = runtime.ForwardResponseMessage
 
-	forward_Carpool_CreatePassenger_0 = runtime.ForwardResponseMessage
+	forward_Carpool_CreateTripApplication_0 = runtime.ForwardResponseMessage
 
-	forward_Carpool_ListPassengers_0 = runtime.ForwardResponseMessage
+	forward_Carpool_ListTripApplications_0 = runtime.ForwardResponseMessage
 
-	forward_Carpool_DeletePassengers_0 = runtime.ForwardResponseMessage
+	forward_Carpool_DeleteTripApplications_0 = runtime.ForwardResponseMessage
 )

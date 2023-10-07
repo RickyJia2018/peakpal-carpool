@@ -5,9 +5,10 @@ INSERT INTO trip_applications (
     boarding_station,
     payment_type,
     currency,
+    total_passenger,
     contact_info
 )VALUES(
-    $1,$2,$3,$4,$5,$6
+    $1,$2,$3,$4,$5,$6,$7
 )RETURNING *;
 
 

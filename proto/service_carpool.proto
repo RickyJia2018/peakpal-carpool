@@ -6,7 +6,7 @@ import "google/api/annotations.proto";
 
 import "rpc_trip.proto";
 import "rpc_station.proto";
-import "rpc_passenger.proto";
+import "rpc_trip_application.proto";
 import "rpc_authorize_user.proto";
 import "rpc_resort.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
@@ -131,36 +131,40 @@ service Carpool{
             summary: "Delete station";
         };
     }
-    /************************ Passengers ********************************/
-    rpc CreatePassenger(CreatePassengerRequest)returns(CreatePassengerResponse){
+    /************************ TripApplications ********************************/
+    rpc CreateTripApplication(CreateTripApplicationRequest)returns(CreateTripApplicationResponse){
         option (google.api.http) = {
-            post: "/create_passenger"
+            post: "/create_trip_application"
             body: "*"
         };
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            description: "Use this API to create a Passenger related to a trip";
-            summary: "Create new Passenger";
+            description: "Use this API to create a TripApplication record";
+            summary: "Create new TripApplication";
         };
     }
-    rpc ListPassengers(ListPassengersRequest)returns(ListPassengersResponse){
+    rpc ListTripApplications(ListTripApplicationsRequest)returns(ListTripApplicationsResponse){
         option (google.api.http) = {
-            get: "/list_passengers"
+            get: "/list_trip_applications"
         };
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            description: "Use this API to get all Passengers in a trip ";
-            summary: "List Trips' Passenger";
+            description: "Use this API to get all TripApplications in a trip ";
+            summary: "List Trips' TripApplication";
         };
     }
-    rpc DeletePassengers(DeletePassengerRequest)returns(DeletePassengerResponse){
+    rpc DeleteTripApplications(DeleteTripApplicationRequest)returns(DeleteTripApplicationResponse){
         option (google.api.http) = {
-            delete: "/delete_passenger"
+            delete: "/delete_trip_application"
         };
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            description: "Use this API to Delete a Passenger";
-            summary: "Delete Passenger";
+            description: "Use this API to Delete a TripApplication";
+            summary: "Delete TripApplication";
         };
     }
 }
+
+
+// PeakPal Client
+
 service PeakPal {
     rpc AuthorizeUser (AuthorizeUserRequest) returns (AuthorizeUserResponse);
     rpc GetResort (GetResortRequest) returns(GetResortResponse);

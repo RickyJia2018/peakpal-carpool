@@ -25,7 +25,7 @@ func (server *Server) CreateTrip(ctx context.Context, req *pb.CreateTripRequest)
 		return nil, status.Errorf(codes.Unauthenticated, "Invalid access token")
 	}
 
-	// Driver must be same as the trip creator
+	// Driver(User) must be same as the trip creator
 	if authPayload.UserId != req.GetDriverId() {
 		return nil, status.Errorf(codes.InvalidArgument, "Invalid Driver ID")
 	}
@@ -86,7 +86,7 @@ func (server *Server) UpdateTrip(ctx context.Context, req *pb.UpdateTripRequest)
 		return nil, status.Errorf(codes.Internal, "Fail to find Trip with ID: %d", req.GetID())
 	}
 	if authPayload.UserId != trip.DriverID {
-		return nil, status.Errorf(codes.Unauthenticated, "Not authorized to modify this trip")
+		return nil, status.Errorf(codes.PermissionDenied, "No permission to modify this trip")
 	}
 	newTrip, err := server.store.UpdateTrip(ctx, db.UpdateTripParams{
 		ID: int64(req.GetID()),
@@ -172,6 +172,8 @@ func (server *Server) ListDriverTrips(ctx context.Context, req *pb.ListDriverTri
 	return rsp, nil
 }
 
+// Should I delete all trip related data? such as passenger, stations, etc.
+// Currently, I think user can only delete trip with no passenger.
 func (server *Server) DeleteTrip(ctx context.Context, req *pb.DeleteTripRequest) (*pb.DeleteTripResponse, error) {
 	violations := validateDeleteTripRequest(req)
 	if violations != nil {
@@ -186,11 +188,24 @@ func (server *Server) DeleteTrip(ctx context.Context, req *pb.DeleteTripRequest)
 		return nil, status.Errorf(codes.Internal, "Fail to find Trip with ID: %d", req.GetID())
 	}
 	if authPayload.UserId != trip.DriverID {
-		return nil, status.Errorf(codes.Unauthenticated, "Not authorized to delete this trip")
+		return nil, status.Errorf(codes.PermissionDenied, "No permission to delete this trip")
 	}
+
+	//TODO: change to trasactions delete realted stations, passengers and send email notification to each passenger
+	stations, err := server.store.ListStations(ctx, int64(req.GetID()))
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "Fail to find Stations with Trip: %s", err.Error())
+	}
+	for _, station := range stations {
+		if err = server.store.DeleteStation(ctx, station.ID); err != nil {
+			return nil, status.Errorf(codes.Internal, "Fail to delete Station: %s", err.Error())
+		}
+	}
+	// Then delete the trip
 	if err = server.store.DeleteTrip(ctx, int64(req.GetID())); err != nil {
 		return nil, status.Errorf(codes.Internal, "Fail to delete Trip: %s", err.Error())
 	}
+
 	return &pb.DeleteTripResponse{
 		Success: true,
 	}, nil

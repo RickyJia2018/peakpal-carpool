@@ -33,7 +33,7 @@ message ListStationsResponse{
 }
 
 message DeleteStationRequest{
-    int64 id =1;
+    int64 ID =1;
 }
 
 message DeleteStationResponse{

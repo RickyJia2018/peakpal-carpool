@@ -8,13 +8,6 @@ import (
 	"time"
 )
 
-type Passenger struct {
-	ID          int64     `json:"id"`
-	PassengerID int64     `json:"passenger_id"`
-	TripID      int64     `json:"trip_id"`
-	CreatedAt   time.Time `json:"created_at"`
-}
-
 type Station struct {
 	ID          int64  `json:"id"`
 	TripID      int64  `json:"trip_id"`
@@ -49,6 +42,7 @@ type TripApplication struct {
 	PaymentType     string    `json:"payment_type"`
 	Currency        string    `json:"currency"`
 	ContactInfo     string    `json:"contact_info"`
+	TotalPassenger  int32     `json:"total_passenger"`
 	Approved        bool      `json:"approved"`
 	CreatedAt       time.Time `json:"created_at"`
 }

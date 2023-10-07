@@ -16,10 +16,11 @@ INSERT INTO trip_applications (
     boarding_station,
     payment_type,
     currency,
+    total_passenger,
     contact_info
 )VALUES(
-    $1,$2,$3,$4,$5,$6
-)RETURNING id, trip_id, passenger_id, boarding_station, payment_type, currency, contact_info, approved, created_at
+    $1,$2,$3,$4,$5,$6,$7
+)RETURNING id, trip_id, passenger_id, boarding_station, payment_type, currency, contact_info, total_passenger, approved, created_at
 `
 
 type CreateTripApplicationParams struct {
@@ -28,6 +29,7 @@ type CreateTripApplicationParams struct {
 	BoardingStation int64  `json:"boarding_station"`
 	PaymentType     string `json:"payment_type"`
 	Currency        string `json:"currency"`
+	TotalPassenger  int32  `json:"total_passenger"`
 	ContactInfo     string `json:"contact_info"`
 }
 
@@ -38,6 +40,7 @@ func (q *Queries) CreateTripApplication(ctx context.Context, arg CreateTripAppli
 		arg.BoardingStation,
 		arg.PaymentType,
 		arg.Currency,
+		arg.TotalPassenger,
 		arg.ContactInfo,
 	)
 	var i TripApplication
@@ -49,6 +52,7 @@ func (q *Queries) CreateTripApplication(ctx context.Context, arg CreateTripAppli
 		&i.PaymentType,
 		&i.Currency,
 		&i.ContactInfo,
+		&i.TotalPassenger,
 		&i.Approved,
 		&i.CreatedAt,
 	)
@@ -66,7 +70,7 @@ func (q *Queries) DeleteTripApplication(ctx context.Context, id int64) error {
 }
 
 const getTripApplication = `-- name: GetTripApplication :one
-SELECT id, trip_id, passenger_id, boarding_station, payment_type, currency, contact_info, approved, created_at FROM trip_applications
+SELECT id, trip_id, passenger_id, boarding_station, payment_type, currency, contact_info, total_passenger, approved, created_at FROM trip_applications
 WHERE id = $1 LIMIT 1
 `
 
@@ -81,6 +85,7 @@ func (q *Queries) GetTripApplication(ctx context.Context, id int64) (TripApplica
 		&i.PaymentType,
 		&i.Currency,
 		&i.ContactInfo,
+		&i.TotalPassenger,
 		&i.Approved,
 		&i.CreatedAt,
 	)
@@ -88,7 +93,7 @@ func (q *Queries) GetTripApplication(ctx context.Context, id int64) (TripApplica
 }
 
 const listTripApplications = `-- name: ListTripApplications :many
-SELECT id, trip_id, passenger_id, boarding_station, payment_type, currency, contact_info, approved, created_at FROM trip_applications
+SELECT id, trip_id, passenger_id, boarding_station, payment_type, currency, contact_info, total_passenger, approved, created_at FROM trip_applications
 WHERE trip_id = $1
 ORDER BY created_at
 LIMIT $2 OFFSET $3
@@ -117,6 +122,7 @@ func (q *Queries) ListTripApplications(ctx context.Context, arg ListTripApplicat
 			&i.PaymentType,
 			&i.Currency,
 			&i.ContactInfo,
+			&i.TotalPassenger,
 			&i.Approved,
 			&i.CreatedAt,
 		); err != nil {

@@ -1,4 +1,3 @@
 DROP TABLE IF EXISTS trip_requests;
-DROP TABLE IF EXISTS passengers;
 DROP TABLE IF EXISTS stations;
 DROP TABLE IF EXISTS trips;
