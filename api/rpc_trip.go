@@ -88,6 +88,9 @@ func (server *Server) UpdateTrip(ctx context.Context, req *pb.UpdateTripRequest)
 	if authPayload.UserId != trip.DriverID {
 		return nil, status.Errorf(codes.PermissionDenied, "No permission to modify this trip")
 	}
+	if trip.DepartureAt.Before(time.Now()) {
+		return nil, status.Errorf(codes.FailedPrecondition, "Cannot modify a trip that has already started")
+	}
 	newTrip, err := server.store.UpdateTrip(ctx, db.UpdateTripParams{
 		ID: int64(req.GetID()),
 		ContactInfo: pgtype.Text{

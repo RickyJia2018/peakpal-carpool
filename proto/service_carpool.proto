@@ -53,6 +53,7 @@ service Carpool{
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to create a trip record";
             summary: "Create new Trip";
+            tags:["Trips"];
         };
     }
     rpc GetTrip(GetTripRequest) returns (GetTripResponse){
@@ -62,6 +63,7 @@ service Carpool{
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to get a trip record by ID";
             summary: "Get Trip by ID";
+            tags:["Trips"];
         };
     }
 
@@ -72,6 +74,7 @@ service Carpool{
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to get all not expired trips by resorts (Departure time is after Now()) ";
             summary: "List future Trips";
+            tags:["Trips"];
         };
     }
     rpc ListDriverTrips(ListDriverTripsRequest)returns(ListTripsResponse){
@@ -81,6 +84,7 @@ service Carpool{
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to get all trips belongs to current driver";
             summary: "List Driver's Trips";
+            tags:["Trips"];
         };
     }
     rpc UpdateTrip (UpdateTripRequest) returns (GetTripResponse){
@@ -91,6 +95,7 @@ service Carpool{
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to update trip, must provide driver id";
             summary: "Update Driver's Trips";
+            tags:["Trips"];
         };
     }
     rpc DeleteTrip (DeleteTripRequest)returns(DeleteTripResponse){
@@ -100,6 +105,7 @@ service Carpool{
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to Delete a trip";
             summary: "Delete Driver's Trips";
+            tags:["Trips"];
         };
     }
     /*****************  Stations****************/
@@ -111,6 +117,7 @@ service Carpool{
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to create a station related to a trip";
             summary: "Create new Station";
+            tags:["Stations"];
         };
     }
     rpc ListStations(ListStationsRequest)returns(ListStationsResponse){
@@ -120,6 +127,7 @@ service Carpool{
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to get all stations in a trip ";
             summary: "List Trips' stations";
+            tags:["Stations"];
         };
     }
     rpc DeleteStations(DeleteStationRequest)returns(DeleteStationResponse){
@@ -129,6 +137,7 @@ service Carpool{
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to Delete a station";
             summary: "Delete station";
+            tags:["Stations"];
         };
     }
     /************************ TripApplications ********************************/
@@ -140,6 +149,7 @@ service Carpool{
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to create a TripApplication record";
             summary: "Create new TripApplication";
+            tags:["TripApplications"];
         };
     }
     rpc ListTripApplications(ListTripApplicationsRequest)returns(ListTripApplicationsResponse){
@@ -149,6 +159,7 @@ service Carpool{
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to get all TripApplications in a trip ";
             summary: "List Trips' TripApplication";
+            tags:["TripApplications"];
         };
     }
     rpc DeleteTripApplications(DeleteTripApplicationRequest)returns(DeleteTripApplicationResponse){
@@ -158,6 +169,7 @@ service Carpool{
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to Delete a TripApplication";
             summary: "Delete TripApplication";
+            tags:["TripApplications"];
         };
     }
 }
