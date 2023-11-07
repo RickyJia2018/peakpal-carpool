@@ -4,10 +4,9 @@ package pb;
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/rickyjia2018/peak-pal-server/pb";
+option go_package = "github.com/rickyjia2018/peakpal-carpool/pb";
 
 message AuthorizeUserRequest {
-	string access_token = 1;
 }
 
 message AuthorizeUserResponse {

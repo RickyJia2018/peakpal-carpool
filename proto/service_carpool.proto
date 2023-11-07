@@ -5,7 +5,10 @@ package pb;
 import "google/api/annotations.proto";
 
 import "rpc_trip.proto";
-
+import "rpc_station.proto";
+import "rpc_trip_application.proto";
+import "rpc_authorize_user.proto";
+import "rpc_resort.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "github.com/rickyjia2018/peakpal-carpool/pb";
@@ -19,6 +22,7 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
             url: "https://googuar.com/";
             email: "support@googuar.com";
         };
+        description:"All time are using Unix Timestamp - https://www.epochconverter.com/";
     };
     schemes: [HTTP, HTTPS];  // Use an array of identifiers for HTTP and HTTPS
     // base_path: "/v1";
@@ -43,12 +47,137 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 service Carpool{
     rpc CreateTrip(CreateTripRequest) returns (CreateTripResponse){
         option (google.api.http) = {
-            post: "/v1/create_trip"
+            post: "/create_trip"
             body: "*"
         };
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to create a trip record";
             summary: "Create new Trip";
+            tags:["Trips"];
         };
     }
+    rpc GetTrip(GetTripRequest) returns (GetTripResponse){
+        option (google.api.http) = {
+            get: "/get_trip"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to get a trip record by ID";
+            summary: "Get Trip by ID";
+            tags:["Trips"];
+        };
+    }
+
+    rpc ListFutureTrips(ListFutureTripsRequest)returns(ListTripsResponse){
+        option (google.api.http) = {
+            get: "/list_future_trips"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to get all not expired trips by resorts (Departure time is after Now()) ";
+            summary: "List future Trips";
+            tags:["Trips"];
+        };
+    }
+    rpc ListDriverTrips(ListDriverTripsRequest)returns(ListTripsResponse){
+        option (google.api.http) = {
+            get: "/list_driver_trips"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to get all trips belongs to current driver";
+            summary: "List Driver's Trips";
+            tags:["Trips"];
+        };
+    }
+    rpc UpdateTrip (UpdateTripRequest) returns (GetTripResponse){
+        option (google.api.http) = {
+            patch: "/update_trip"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to update trip, must provide driver id";
+            summary: "Update Driver's Trips";
+            tags:["Trips"];
+        };
+    }
+    rpc DeleteTrip (DeleteTripRequest)returns(DeleteTripResponse){
+        option (google.api.http) = {
+            delete: "/delete_trip"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to Delete a trip";
+            summary: "Delete Driver's Trips";
+            tags:["Trips"];
+        };
+    }
+    /*****************  Stations****************/
+    rpc CreateStation(CreateStationRequest)returns(CreateStationResponse){
+        option (google.api.http) = {
+            post: "/create_station"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to create a station related to a trip";
+            summary: "Create new Station";
+            tags:["Stations"];
+        };
+    }
+    rpc ListStations(ListStationsRequest)returns(ListStationsResponse){
+        option (google.api.http) = {
+            get: "/list_stations"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to get all stations in a trip ";
+            summary: "List Trips' stations";
+            tags:["Stations"];
+        };
+    }
+    rpc DeleteStations(DeleteStationRequest)returns(DeleteStationResponse){
+        option (google.api.http) = {
+            delete: "/delete_station"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to Delete a station";
+            summary: "Delete station";
+            tags:["Stations"];
+        };
+    }
+    /************************ TripApplications ********************************/
+    rpc CreateTripApplication(CreateTripApplicationRequest)returns(CreateTripApplicationResponse){
+        option (google.api.http) = {
+            post: "/create_trip_application"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to create a TripApplication record";
+            summary: "Create new TripApplication";
+            tags:["TripApplications"];
+        };
+    }
+    rpc ListTripApplications(ListTripApplicationsRequest)returns(ListTripApplicationsResponse){
+        option (google.api.http) = {
+            get: "/list_trip_applications"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to get all TripApplications in a trip ";
+            summary: "List Trips' TripApplication";
+            tags:["TripApplications"];
+        };
+    }
+    rpc DeleteTripApplications(DeleteTripApplicationRequest)returns(DeleteTripApplicationResponse){
+        option (google.api.http) = {
+            delete: "/delete_trip_application"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to Delete a TripApplication";
+            summary: "Delete TripApplication";
+            tags:["TripApplications"];
+        };
+    }
+}
+
+
+// PeakPal Client
+
+service PeakPal {
+    rpc AuthorizeUser (AuthorizeUserRequest) returns (AuthorizeUserResponse);
+    rpc GetResort (GetResortRequest) returns(GetResortResponse);
 }

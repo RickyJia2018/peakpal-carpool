@@ -9,14 +9,14 @@ option go_package = "github.com/rickyjia2018/peakpal-carpool/pb";
 message Station {
     int64 ID = 1;
     int64 tripe_id = 2;
-    string station_name = 3;
+    string name = 3;
     int64 arrival_minutes =4;
     google.protobuf.Timestamp created_at = 5;
 }
  
 message CreateStationRequest {
     int64 tripe_id = 1;
-    string station_name = 2;
+    string name = 2;
     int64 arrival_minutes =3;
 }
  
@@ -33,7 +33,7 @@ message ListStationsResponse{
 }
 
 message DeleteStationRequest{
-    int64 id =1;
+    int64 ID =1;
 }
 
 message DeleteStationResponse{

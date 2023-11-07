@@ -15,18 +15,34 @@ message TripApplication {
     string currency = 6;
     string contact_info =7;
     bool approved = 8;
-    google.protobuf.Timestamp created_at = 9;
+    int64 total_passenger = 9;
+    google.protobuf.Timestamp created_at = 10;
 }
  
 message CreateTripApplicationRequest {
+    int64 total_passenger = 1;
     int64 trip_id = 2;
     int64 passenger_id = 3;
     int64 boarding_station = 4;
     string payment_type = 5;
     string currency = 6;
     string contact_info =7;
+
 }
- 
 message CreateTripApplicationResponse {
     TripApplication trip_application = 1;
+}
+
+message ListTripApplicationsRequest{
+    optional int64 trip_id =1;
+    optional int64 passenger_id =2;
+}
+message ListTripApplicationsResponse{
+    repeated TripApplication trip_applications =1;
+}
+message DeleteTripApplicationRequest{
+    int64 ID =1;
+}
+message DeleteTripApplicationResponse{
+    bool success = 1;
 }

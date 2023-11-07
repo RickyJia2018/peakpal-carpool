@@ -3,7 +3,9 @@ package validators
 import (
 	"fmt"
 	"net/mail"
+	"reflect"
 	"regexp"
+	"time"
 )
 
 var (
@@ -16,6 +18,26 @@ func ValidateString(value string, minLength int, maxLength int) error {
 	n := len(value)
 	if n < minLength || n > maxLength {
 		return fmt.Errorf("must contain from %d-%d characters", minLength, maxLength)
+	}
+	return nil
+}
+
+func ValidateNumber(value int64, min int64, max int64) error {
+	if value < min || value > max {
+		return fmt.Errorf("must be between %d and %d", min, max)
+	}
+	return nil
+}
+func ValidateTime(value time.Time, min time.Time, max time.Time) error {
+	if value.Before(min) || value.After(max) {
+		return fmt.Errorf("must be between %s and %s", min, max)
+	}
+	return nil
+}
+func ValidateBool(value interface{}) error {
+	valueType := reflect.TypeOf(value)
+	if valueType.Kind() != reflect.Bool {
+		return fmt.Errorf("must be boolean")
 	}
 	return nil
 }
